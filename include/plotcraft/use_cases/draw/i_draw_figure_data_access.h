@@ -6,7 +6,7 @@
 namespace plotcraft {
 namespace use_cases {
 
-class IDrawFigureRepoAccesss {
+class IDrawFigureDataAccesss {
  public:
   struct MarginData {
     double left;

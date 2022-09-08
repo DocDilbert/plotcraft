@@ -9,19 +9,19 @@
 //#include <spdlog/sinks/null_sink.h>
 #include <spdlog/spdlog.h>
 
+#include "plotcraft/controller/create_fig_and_axes_controller.h"
 #include "plotcraft/controller/draw_controller.h"
-#include "plotcraft/controller/fig_and_axes_controller.h"
 #include "plotcraft/controller/plot_controller.h"
 #include "plotcraft/controller/set_axes_properties_controller.h"
+#include "plotcraft/data/create_fig_and_axes_data_adapter.h"
+#include "plotcraft/data/create_plot_data_adapter.h"
+#include "plotcraft/data/draw_figure_data_adapter.h"
 #include "plotcraft/data/repository.h"
+#include "plotcraft/data/set_axes_properties_data_adapter.h"
 #include "plotcraft/framework/id_generator.h"
-#include "plotcraft/gateway/create_fig_and_axes_repo_gateway.h"
-#include "plotcraft/gateway/create_plot_repo_gateway.h"
-#include "plotcraft/gateway/draw_figure_repo_gateway.h"
 #include "plotcraft/gateway/measure_gateway.h"
-#include "plotcraft/gateway/set_axes_properties_repo_gateway.h"
+#include "plotcraft/presenter/create_fig_and_axis_presenter.h"
 #include "plotcraft/presenter/draw_presenter.h"
-#include "plotcraft/presenter/fig_and_axis_presenter.h"
 #include "plotcraft/presenter/i_draw_primitives.h"
 #include "plotcraft/presenter/plot_presenter.h"
 #include "plotcraft/presenter/set_axes_properties_presenter.h"
@@ -43,31 +43,32 @@ PlotCraft::PlotCraft() : pimpl_(std::make_unique<PlotCraft::PlotCraftImpl>()) {}
 PlotCraft::~PlotCraft() {}
 
 void PlotCraft::Figure() {
-  plotcraft::presenter::FigAndAxesPresenter fig_and_axes_presenter;
+  plotcraft::presenter::CreateFigAndAxesPresenter create_fig_and_axes_presenter;
 
-  auto create_figure_repo_gw = plotcraft::gateway::CreateFigAndAxesRepoGateway(pimpl_->repo);
+  plotcraft::data::CreateFigAndAxesDataAdapter create_fig_and_axes_data_adapter(pimpl_->repo);
 
-  plotcraft::use_cases::CreateFigAndAxesInteractor fig_and_axes_interactor(
-      fig_and_axes_presenter, create_figure_repo_gw, pimpl_->id_generator);
+  plotcraft::use_cases::CreateFigAndAxesInteractor create_fig_and_axes_interactor(
+      create_fig_and_axes_presenter, create_fig_and_axes_data_adapter, pimpl_->id_generator);
 
-  plotcraft::controller::FigAndAxesController fig_and_axes_controller(fig_and_axes_interactor);
+  plotcraft::controller::CreateFigAndAxesController create_fig_and_axes_controller(
+      create_fig_and_axes_interactor);
 
-  fig_and_axes_controller.Figure();
+  create_fig_and_axes_controller.Figure();
 
-  if (fig_and_axes_presenter.IsCreated()) {
-    figure_id_ = fig_and_axes_presenter.GetFigureId();
-    axes_id_ = fig_and_axes_presenter.GetAxesId();
+  if (create_fig_and_axes_presenter.IsCreated()) {
+    figure_id_ = create_fig_and_axes_presenter.GetFigureId();
+    axes_id_ = create_fig_and_axes_presenter.GetAxesId();
     spdlog::info("Figure created with id '{}'. Axes created with id '{}'", figure_id_, axes_id_);
   }
 }
 
 void PlotCraft::Plot(const std::vector<double>& x, const std::vector<double>& y,
                      const std::map<std::string, std::string> options) {
-  plotcraft::gateway::CreatePlotRepoGateway create_plot_repo_gw(pimpl_->repo);
+  plotcraft::data::CreatePlotDataAdapter create_plot_data_adapter(pimpl_->repo);
   plotcraft::presenter::PlotPresenter plot_presenter;
 
-  plotcraft::use_cases::CreatePlotInteractor plot_interactor(plot_presenter, create_plot_repo_gw,
-                                                             pimpl_->id_generator);
+  plotcraft::use_cases::CreatePlotInteractor plot_interactor(
+      plot_presenter, create_plot_data_adapter, pimpl_->id_generator);
 
   plotcraft::controller::PlotController plot_controller(plot_interactor);
 
@@ -84,11 +85,11 @@ void PlotCraft::Draw(plotcraft::presenter::IDrawPrimitives& draw_primitives,
                      int height) {
   spdlog::info("Drawing of figure '{}' started", figure_id_);
   plotcraft::gateway::MeasureGateway measure_gw(measure);
-  plotcraft::gateway::DrawFigureRepoGateway draw_figure_repo_gw(pimpl_->repo);
+  plotcraft::data::DrawFigureDataAdapter draw_figure_data_adapter(pimpl_->repo);
   plotcraft::presenter::DrawPresenter draw_presenter(draw_primitives);
 
   plotcraft::use_cases::DrawFigureInteractor draw_figure_interactor(
-      draw_presenter, draw_figure_repo_gw, measure_gw);
+      draw_presenter, draw_figure_data_adapter, measure_gw);
 
   plotcraft::controller::DrawController draw_controller(draw_figure_interactor);
   try {
@@ -103,87 +104,87 @@ void PlotCraft::Draw(plotcraft::presenter::IDrawPrimitives& draw_primitives,
 }
 
 void PlotCraft::Xlim(double left, double right) {
-  plotcraft::gateway::SetAxesPropertiesRepoGateway update_axes_properties_repo_gw(pimpl_->repo);
+  plotcraft::data::SetAxesPropertiesDataAdapter set_axes_properties_data_adapter(pimpl_->repo);
 
-  plotcraft::presenter::SetAxesPropertiesPresenter update_axes_properties_presenter;
+  plotcraft::presenter::SetAxesPropertiesPresenter set_axes_properties_presenter;
 
-  plotcraft::use_cases::SetAxesPropertiesInteractor update_axes_properties_interactor(
-      update_axes_properties_presenter, update_axes_properties_repo_gw);
+  plotcraft::use_cases::SetAxesPropertiesInteractor set_axes_properties_interactor(
+      set_axes_properties_presenter, set_axes_properties_data_adapter);
 
-  plotcraft::controller::SetAxesPropertiesController update_axes_properties_controller(
-      update_axes_properties_interactor);
+  plotcraft::controller::SetAxesPropertiesController set_axes_properties_controller(
+      set_axes_properties_interactor);
 
-  update_axes_properties_controller.UpdateXRange(axes_id_, left, right);
+  set_axes_properties_controller.UpdateXRange(axes_id_, left, right);
 
-  if (update_axes_properties_presenter.IsCreated()) {
+  if (set_axes_properties_presenter.IsCreated()) {
     spdlog::info("Update axes view port - X ");
   }
 }
 
 void PlotCraft::Ylim(double bottom, double top) {
-  plotcraft::gateway::SetAxesPropertiesRepoGateway update_axes_properties_repo_gw(pimpl_->repo);
+  plotcraft::data::SetAxesPropertiesDataAdapter set_axes_properties_data_adapter(pimpl_->repo);
 
-  plotcraft::presenter::SetAxesPropertiesPresenter update_axes_properties_presenter;
-  plotcraft::use_cases::SetAxesPropertiesInteractor update_axes_properties_interactor(
-      update_axes_properties_presenter, update_axes_properties_repo_gw);
+  plotcraft::presenter::SetAxesPropertiesPresenter set_axes_properties_presenter;
+  plotcraft::use_cases::SetAxesPropertiesInteractor set_axes_properties_interactor(
+      set_axes_properties_presenter, set_axes_properties_data_adapter);
 
-  plotcraft::controller::SetAxesPropertiesController update_axes_properties_controller(
-      update_axes_properties_interactor);
+  plotcraft::controller::SetAxesPropertiesController set_axes_properties_controller(
+      set_axes_properties_interactor);
 
-  update_axes_properties_controller.UpdateYRange(axes_id_, bottom, top);
+  set_axes_properties_controller.UpdateYRange(axes_id_, bottom, top);
 
-  if (update_axes_properties_presenter.IsCreated()) {
+  if (set_axes_properties_presenter.IsCreated()) {
     spdlog::info("Update axes view port - Y");
   }
 }
 
 void PlotCraft::XLabel(const std::string& text) {
-  plotcraft::gateway::SetAxesPropertiesRepoGateway update_axes_properties_repo_gw(pimpl_->repo);
+  plotcraft::data::SetAxesPropertiesDataAdapter set_axes_properties_data_adapter(pimpl_->repo);
 
-  plotcraft::presenter::SetAxesPropertiesPresenter update_axes_properties_presenter;
-  plotcraft::use_cases::SetAxesPropertiesInteractor update_axes_properties_interactor(
-      update_axes_properties_presenter, update_axes_properties_repo_gw);
+  plotcraft::presenter::SetAxesPropertiesPresenter set_axes_properties_presenter;
+  plotcraft::use_cases::SetAxesPropertiesInteractor set_axes_properties_interactor(
+      set_axes_properties_presenter, set_axes_properties_data_adapter);
 
-  plotcraft::controller::SetAxesPropertiesController update_axes_properties_controller(
-      update_axes_properties_interactor);
+  plotcraft::controller::SetAxesPropertiesController set_axes_properties_controller(
+      set_axes_properties_interactor);
 
-  update_axes_properties_controller.SetXLabel(axes_id_, text);
+  set_axes_properties_controller.SetXLabel(axes_id_, text);
 
-  if (update_axes_properties_presenter.IsCreated()) {
+  if (set_axes_properties_presenter.IsCreated()) {
     spdlog::info("Set x label");
   }
 }
 
 void PlotCraft::YLabel(const std::string& text) {
-  plotcraft::gateway::SetAxesPropertiesRepoGateway update_axes_properties_repo_gw(pimpl_->repo);
+  plotcraft::data::SetAxesPropertiesDataAdapter set_axes_properties_data_adapter(pimpl_->repo);
 
-  plotcraft::presenter::SetAxesPropertiesPresenter update_axes_properties_presenter;
-  plotcraft::use_cases::SetAxesPropertiesInteractor update_axes_properties_interactor(
-      update_axes_properties_presenter, update_axes_properties_repo_gw);
+  plotcraft::presenter::SetAxesPropertiesPresenter set_axes_properties_presenter;
+  plotcraft::use_cases::SetAxesPropertiesInteractor set_axes_properties_interactor(
+      set_axes_properties_presenter, set_axes_properties_data_adapter);
 
-  plotcraft::controller::SetAxesPropertiesController update_axes_properties_controller(
-      update_axes_properties_interactor);
+  plotcraft::controller::SetAxesPropertiesController set_axes_properties_controller(
+      set_axes_properties_interactor);
 
-  update_axes_properties_controller.SetYLabel(axes_id_, text);
+  set_axes_properties_controller.SetYLabel(axes_id_, text);
 
-  if (update_axes_properties_presenter.IsCreated()) {
+  if (set_axes_properties_presenter.IsCreated()) {
     spdlog::info("Set y label");
   }
 }
 
 void PlotCraft::Title(const std::string& text) {
-  plotcraft::gateway::SetAxesPropertiesRepoGateway update_axes_properties_repo_gw(pimpl_->repo);
+  plotcraft::data::SetAxesPropertiesDataAdapter set_axes_properties_data_adapter(pimpl_->repo);
 
-  plotcraft::presenter::SetAxesPropertiesPresenter update_axes_properties_presenter;
-  plotcraft::use_cases::SetAxesPropertiesInteractor update_axes_properties_interactor(
-      update_axes_properties_presenter, update_axes_properties_repo_gw);
+  plotcraft::presenter::SetAxesPropertiesPresenter set_axes_properties_presenter;
+  plotcraft::use_cases::SetAxesPropertiesInteractor set_axes_properties_interactor(
+      set_axes_properties_presenter, set_axes_properties_data_adapter);
 
-  plotcraft::controller::SetAxesPropertiesController update_axes_properties_controller(
-      update_axes_properties_interactor);
+  plotcraft::controller::SetAxesPropertiesController set_axes_properties_controller(
+      set_axes_properties_interactor);
 
-  update_axes_properties_controller.SetTitle(axes_id_, text);
+  set_axes_properties_controller.SetTitle(axes_id_, text);
 
-  if (update_axes_properties_presenter.IsCreated()) {
+  if (set_axes_properties_presenter.IsCreated()) {
     spdlog::info("Set y label");
   }
 }

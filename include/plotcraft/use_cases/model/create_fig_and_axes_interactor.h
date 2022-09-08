@@ -9,9 +9,9 @@
 #include "plotcraft/entities/figure.h"
 #include "plotcraft/entities/orientation.h"
 #include "plotcraft/use_cases/i_id_generator.h"
+#include "plotcraft/use_cases/model/i_create_fig_and_axes_data_access.h"
 #include "plotcraft/use_cases/model/i_create_fig_and_axes_input.h"
 #include "plotcraft/use_cases/model/i_create_fig_and_axes_output.h"
-#include "plotcraft/use_cases/model/i_create_fig_and_axes_repo_access.h"
 
 namespace plotcraft {
 namespace use_cases {
@@ -20,9 +20,9 @@ class CreateFigAndAxesInteractor : public ICreateFigAndAxesInput {
  private:
  public:
   CreateFigAndAxesInteractor(ICreateFigAndAxesOutput& output,
-                             ICreateFigAndAxesRepoAccess& create_figure_repo_access,
+                             ICreateFigAndAxesDataAccess& create_figure_repo_access,
                              IIdGenerator& id_gen)
-      : output_(output), create_figure_repo_access_(create_figure_repo_access), id_gen_(id_gen) {}
+      : output_(output), data_access_(create_figure_repo_access), id_gen_(id_gen) {}
 
   void Create(CreateFigAndAxesRequest request) override {
     // *******************************
@@ -45,7 +45,7 @@ class CreateFigAndAxesInteractor : public ICreateFigAndAxesInput {
     // *******************************
 
     // ADD FIGURE
-    ICreateFigAndAxesRepoAccess::FigureData figure_data;
+    ICreateFigAndAxesDataAccess::FigureData figure_data;
     figure_data.figure_id = id_gen_.GetId("FIGURE");
     figure_data.margins = {.left = fig.margins.left,
                            .top = fig.margins.top,
@@ -56,31 +56,31 @@ class CreateFigAndAxesInteractor : public ICreateFigAndAxesInput {
                             .bottom = fig.paddings.bottom,
                             .right = fig.paddings.right};
 
-    create_figure_repo_access_.AddFigure(figure_data);
+    data_access_.AddFigure(figure_data);
 
     // ADD AXIS TO AXES
-    std::vector<ICreateFigAndAxesRepoAccess::AxisData> v_axis_data;
+    std::vector<ICreateFigAndAxesDataAccess::AxisData> v_axis_data;
     for (auto& axis : axes.axis) {
-      ICreateFigAndAxesRepoAccess::AxisData axis_data;
+      ICreateFigAndAxesDataAccess::AxisData axis_data;
 
       if (axis.orientation == entities::Orientation::kHorizontal) {
-        axis_data.orientation = ICreateFigAndAxesRepoAccess::Orientation::kHorizontal;
+        axis_data.orientation = ICreateFigAndAxesDataAccess::Orientation::kHorizontal;
       } else {
-        axis_data.orientation = ICreateFigAndAxesRepoAccess::Orientation::kVertical;
+        axis_data.orientation = ICreateFigAndAxesDataAccess::Orientation::kVertical;
       }
 
       v_axis_data.push_back(axis_data);
     }
 
     // ADD AXES
-    ICreateFigAndAxesRepoAccess::AxesData axes_data;
+    ICreateFigAndAxesDataAccess::AxesData axes_data;
     axes_data.axes_id = id_gen_.GetId("AXES");
     axes_data.viewport_left = axes.viewport.left;
     axes_data.viewport_bottom = axes.viewport.bottom;
     axes_data.viewport_width = axes.viewport.width;
     axes_data.viewport_height = axes.viewport.height;
     axes_data.axis = v_axis_data;
-    create_figure_repo_access_.AddAxesToFigure(figure_data.figure_id, axes_data);
+    data_access_.AddAxesToFigure(figure_data.figure_id, axes_data);
 
     CreateFigAndAxesResponse response = {.figure_id = figure_data.figure_id,
                                          .axes_id = axes_data.axes_id};
@@ -90,7 +90,7 @@ class CreateFigAndAxesInteractor : public ICreateFigAndAxesInput {
 
  private:
   ICreateFigAndAxesOutput& output_;
-  ICreateFigAndAxesRepoAccess& create_figure_repo_access_;
+  ICreateFigAndAxesDataAccess& data_access_;
   IIdGenerator& id_gen_;
 };
 

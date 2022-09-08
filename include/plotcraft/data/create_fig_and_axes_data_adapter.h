@@ -5,18 +5,18 @@
 #include <vector>
 
 #include "plotcraft/data/repository.h"
-#include "plotcraft/use_cases/model/i_create_fig_and_axes_repo_access.h"
+#include "plotcraft/use_cases/model/i_create_fig_and_axes_data_access.h"
 
 namespace plotcraft {
-namespace gateway {
+namespace data {
 
-class CreateFigAndAxesRepoGateway : public use_cases::ICreateFigAndAxesRepoAccess {
+class CreateFigAndAxesDataAdapter : public use_cases::ICreateFigAndAxesDataAccess {
  public:
-  CreateFigAndAxesRepoGateway(data::Repository& repo) : repo_(repo) {}
+  CreateFigAndAxesDataAdapter(data::Repository& repo) : repo_(repo) {}
 
   virtual void AddAxesToFigure(
       const std::string& figure_id,
-      const use_cases::ICreateFigAndAxesRepoAccess::AxesData& data) override {
+      const use_cases::ICreateFigAndAxesDataAccess::AxesData& data) override {
     auto figure = repo_.GetFigure(figure_id);
 
     data::Axes axes = {
@@ -30,7 +30,7 @@ class CreateFigAndAxesRepoGateway : public use_cases::ICreateFigAndAxesRepoAcces
 
     for (auto& it : data.axis) {
       auto ot = data::AxisOrientation::kVertical;
-      if (it.orientation == use_cases::ICreateFigAndAxesRepoAccess::Orientation::kHorizontal) {
+      if (it.orientation == use_cases::ICreateFigAndAxesDataAccess::Orientation::kHorizontal) {
         ot = data::AxisOrientation::kHorizontal;
       }
 
@@ -42,7 +42,7 @@ class CreateFigAndAxesRepoGateway : public use_cases::ICreateFigAndAxesRepoAcces
     repo_.AddAxes(data.axes_id, axes);
   }
 
-  virtual void AddFigure(const use_cases::ICreateFigAndAxesRepoAccess::FigureData& data) override {
+  virtual void AddFigure(const use_cases::ICreateFigAndAxesDataAccess::FigureData& data) override {
     //
     data::Figure figure = {.figure_id = data.figure_id,
                            .margins =
@@ -70,5 +70,5 @@ class CreateFigAndAxesRepoGateway : public use_cases::ICreateFigAndAxesRepoAcces
   data::Repository& repo_;
 };
 
-}  // namespace gateway
+}  // namespace data
 }  // namespace plotcraft

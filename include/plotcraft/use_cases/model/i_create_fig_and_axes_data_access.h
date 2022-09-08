@@ -7,7 +7,7 @@
 namespace plotcraft {
 namespace use_cases {
 
-class ICreateFigAndAxesRepoAccess {
+class ICreateFigAndAxesDataAccess {
  public:
   enum class Orientation { kVertical, kHorizontal };
 

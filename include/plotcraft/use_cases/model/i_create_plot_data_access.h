@@ -6,7 +6,7 @@
 namespace plotcraft {
 namespace use_cases {
 
-class ICreatePlotRepoAccess {
+class ICreatePlotDataAccess {
  public:
   struct PlotData {
     std::string &plot_id;

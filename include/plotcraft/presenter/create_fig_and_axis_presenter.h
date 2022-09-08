@@ -8,9 +8,9 @@
 namespace plotcraft {
 namespace presenter {
 
-class FigAndAxesPresenter : public use_cases::ICreateFigAndAxesOutput {
+class CreateFigAndAxesPresenter : public use_cases::ICreateFigAndAxesOutput {
  public:
-  FigAndAxesPresenter() {}
+  CreateFigAndAxesPresenter() {}
 
   void IsCreated(use_cases::CreateFigAndAxesResponse response) override {
     is_created_ = true;

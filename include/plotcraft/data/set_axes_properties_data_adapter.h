@@ -7,14 +7,14 @@
 #include "plotcraft/data/axis.h"
 #include "plotcraft/data/figure.h"
 #include "plotcraft/data/repository.h"
-#include "plotcraft/use_cases/model/i_set_axes_properties_repo_access.h"
+#include "plotcraft/use_cases/model/i_set_axes_properties_data_access.h"
 
 namespace plotcraft {
-namespace gateway {
+namespace data {
 
-class SetAxesPropertiesRepoGateway : public use_cases::ISetAxesPropertiesRepoAccess {
+class SetAxesPropertiesDataAdapter : public use_cases::ISetAxesPropertiesDataAccess {
  public:
-  SetAxesPropertiesRepoGateway(data::Repository& repo) : repo_(repo) {}
+  SetAxesPropertiesDataAdapter(data::Repository& repo) : repo_(repo) {}
 
   void SetHorizontalViewport(const std::string& axes_id, double left, double width) override {
     auto axes = repo_.GetAxes(axes_id);
@@ -52,5 +52,5 @@ class SetAxesPropertiesRepoGateway : public use_cases::ISetAxesPropertiesRepoAcc
   data::Repository& repo_;
 };
 
-}  // namespace gateway
+}  // namespace data
 }  // namespace plotcraft

@@ -7,19 +7,19 @@
 #include <string>
 
 #include "plotcraft/use_cases/i_id_generator.h"
+#include "plotcraft/use_cases/model/i_create_plot_data_access.h"
 #include "plotcraft/use_cases/model/i_create_plot_input.h"
 #include "plotcraft/use_cases/model/i_create_plot_output.h"
-#include "plotcraft/use_cases/model/i_create_plot_repo_access.h"
 
 namespace plotcraft {
 namespace use_cases {
 
 class CreatePlotInteractor : public ICreatePlotInput {
  public:
-  CreatePlotInteractor(ICreatePlotOutput& output, ICreatePlotRepoAccess& create_plot_repo_access,
+  CreatePlotInteractor(ICreatePlotOutput& output, ICreatePlotDataAccess& create_plot_repo_access,
                        IIdGenerator& id_gen)
 
-      : output_(output), create_plot_repo_access_(create_plot_repo_access), id_gen_(id_gen) {}
+      : output_(output), data_access_(create_plot_repo_access), id_gen_(id_gen) {}
 
   void Create(CreatePlotRequest request) override {
     auto plot_id = id_gen_.GetId("PLOT");
@@ -42,8 +42,8 @@ class CreatePlotInteractor : public ICreatePlotInput {
       min_y = min_y - interval_y * kMargin;
       max_y = max_y + interval_y * kMargin;
 
-      auto viewport = create_plot_repo_access_.GetViewPort(request.axes_id);
-      if (create_plot_repo_access_.GetPlotCount(request.axes_id) != 0) {
+      auto viewport = data_access_.GetViewPort(request.axes_id);
+      if (data_access_.GetPlotCount(request.axes_id) != 0) {
         auto vp_min_x = viewport.left;
         auto vp_max_x = viewport.width + viewport.left;
         auto vp_min_y = viewport.bottom;
@@ -59,15 +59,15 @@ class CreatePlotInteractor : public ICreatePlotInput {
       viewport.width = max_x - min_x;
       viewport.bottom = min_y;
       viewport.height = max_y - min_y;
-      create_plot_repo_access_.UpdateViewPort(request.axes_id, viewport);
+      data_access_.UpdateViewPort(request.axes_id, viewport);
     }
 
-    ICreatePlotRepoAccess::PlotData plot_data = {.plot_id = plot_id,
+    ICreatePlotDataAccess::PlotData plot_data = {.plot_id = plot_id,
                                                  .x = request.x,
                                                  .y = request.y,
                                                  .color = request.color,
                                                  .makerstyle = request.markerstyle};
-    create_plot_repo_access_.AddPlotToAxes(request.axes_id, plot_data, request.label);
+    data_access_.AddPlotToAxes(request.axes_id, plot_data, request.label);
 
     CreatePlotResponse response = {.plot_id = plot_id};
     output_.IsPlotCreated(response);
@@ -77,7 +77,7 @@ class CreatePlotInteractor : public ICreatePlotInput {
   static constexpr double kMargin = 0.05;
 
   ICreatePlotOutput& output_;
-  ICreatePlotRepoAccess& create_plot_repo_access_;
+  ICreatePlotDataAccess& data_access_;
   IIdGenerator& id_gen_;
 };
 

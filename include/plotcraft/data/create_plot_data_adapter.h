@@ -10,14 +10,14 @@
 #include "plotcraft/data/figure.h"
 #include "plotcraft/data/plot2d.h"
 #include "plotcraft/data/repository.h"
-#include "plotcraft/use_cases/model/i_create_plot_repo_access.h"
+#include "plotcraft/use_cases/model/i_create_plot_data_access.h"
 
 namespace plotcraft {
-namespace gateway {
+namespace data {
 
-class CreatePlotRepoGateway : public use_cases::ICreatePlotRepoAccess {
+class CreatePlotDataAdapter : public use_cases::ICreatePlotDataAccess {
  public:
-  CreatePlotRepoGateway(data::Repository& repo) : repo_(repo) {}
+  CreatePlotDataAdapter(data::Repository& repo) : repo_(repo) {}
 
   unsigned GetPlotCount(const std::string& axes_id) override {
     const auto& axes = repo_.GetAxes(axes_id);
@@ -59,5 +59,5 @@ class CreatePlotRepoGateway : public use_cases::ICreatePlotRepoAccess {
   data::Repository& repo_;
 };
 
-}  // namespace gateway
+}  // namespace data
 }  // namespace plotcraft

@@ -7,10 +7,9 @@
 namespace plotcraft {
 namespace controller {
 
-class FigAndAxesController {
+class CreateFigAndAxesController {
  public:
-  FigAndAxesController(use_cases::ICreateFigAndAxesInput& output)
-      : output_(output) {}
+  CreateFigAndAxesController(use_cases::ICreateFigAndAxesInput& output) : output_(output) {}
 
   void Figure() {
     use_cases::CreateFigAndAxesRequest request = {};

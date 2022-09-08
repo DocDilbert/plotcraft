@@ -7,7 +7,7 @@
 namespace plotcraft {
 namespace use_cases {
 
-class ISetAxesPropertiesRepoAccess {
+class ISetAxesPropertiesDataAccess {
  public:
   virtual void SetHorizontalViewport(const std::string& axes_id, double left, double width) = 0;
   virtual void SetVerticalViewport(const std::string& axes_id, double bottom, double height) = 0;

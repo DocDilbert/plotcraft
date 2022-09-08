@@ -16,9 +16,9 @@
 #include "plotcraft/entities/orientation.h"
 #include "plotcraft/entities/plot2d.h"
 #include "plotcraft/entities/rect.h"
+#include "plotcraft/use_cases/draw/i_draw_figure_data_access.h"
 #include "plotcraft/use_cases/draw/i_draw_figure_input.h"
 #include "plotcraft/use_cases/draw/i_draw_figure_output.h"
-#include "plotcraft/use_cases/draw/i_draw_figure_repo_access.h"
 #include "plotcraft/use_cases/i_measure.h"
 
 namespace plotcraft {
@@ -96,11 +96,11 @@ class DrawFigureInteractor : public IDrawFigureInput {
   };
 
  public:
-  DrawFigureInteractor(IDrawFigureOutput& output, IDrawFigureRepoAccesss& draw_figure_repo_access,
+  DrawFigureInteractor(IDrawFigureOutput& output, IDrawFigureDataAccesss& draw_figure_repo_access,
                        IMeasure& measure)
-      : output_(output), draw_figure_repo_access_(draw_figure_repo_access), measure_(measure) {}
+      : output_(output), data_access_(draw_figure_repo_access), measure_(measure) {}
 
-  entities::Margins ConvertMargins(const IDrawFigureRepoAccesss::MarginData& margin) {
+  entities::Margins ConvertMargins(const IDrawFigureDataAccesss::MarginData& margin) {
     entities::Margins res = {
         .left = margin.left, .top = margin.top, .bottom = margin.bottom, .right = margin.right};
     return res;
@@ -114,9 +114,9 @@ class DrawFigureInteractor : public IDrawFigureInput {
 
     // -----------------------
     // Calculate drawing region
-    const auto& figure_margins = ConvertMargins(draw_figure_repo_access_.GetMargins(figure_id));
+    const auto& figure_margins = ConvertMargins(data_access_.GetMargins(figure_id));
 
-    const auto& figure_paddings = ConvertMargins(draw_figure_repo_access_.GetPaddings(figure_id));
+    const auto& figure_paddings = ConvertMargins(data_access_.GetPaddings(figure_id));
 
     auto inner_region = figure_margins.DeflateRect(element_box);
     auto content_region = figure_paddings.DeflateRect(element_box);
@@ -124,15 +124,15 @@ class DrawFigureInteractor : public IDrawFigureInput {
     // -----------------------
     // Build Entity model
     std::vector<entities::Axes> e_axes;
-    auto axes_ids = draw_figure_repo_access_.GetAxesIds(figure_id);
+    auto axes_ids = data_access_.GetAxesIds(figure_id);
 
     for (const auto& it : axes_ids) {
-      auto axes_data = draw_figure_repo_access_.GetAxesData(it);
+      auto axes_data = data_access_.GetAxesData(it);
 
       std::vector<entities::Axis> e_axis;
       for (auto& axis : axes_data.axis) {
         auto ot = entities::Orientation::kVertical;
-        if (axis.orientation == IDrawFigureRepoAccesss::Orientation::kHorizontal) {
+        if (axis.orientation == IDrawFigureDataAccesss::Orientation::kHorizontal) {
           ot = entities::Orientation::kHorizontal;
         }
 
@@ -213,7 +213,7 @@ class DrawFigureInteractor : public IDrawFigureInput {
 
  private:
   IDrawFigureOutput& output_;
-  IDrawFigureRepoAccesss& draw_figure_repo_access_;
+  IDrawFigureDataAccesss& data_access_;
   IMeasure& measure_;
 };
 
