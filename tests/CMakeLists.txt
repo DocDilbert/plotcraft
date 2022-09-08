@@ -31,6 +31,7 @@ macro(package_add_test TESTNAME)
 endmacro()
 
 set(TEST_SOURCES
+    plotcraft/entities/test_draw_legend.cpp
     plotcraft/entities/test_transform.cpp
     plotcraft/entities/test_locators.cpp
 )

@@ -22,7 +22,14 @@ class DrawLegend {
       : draw_primitives_(draw_primitives), measure_(measure), content_region_(content_region) {}
 
   void Draw(const Legend& legend) {
-    auto& entries = legend.entries;
+    // only consider legend entries which are valid
+    auto entries = FilterLegendEntries(legend.entries);
+
+    // if no entries exist, do not draw the legend
+    if (entries.size() == 0) {
+      return;
+    }
+
     auto top_right = content_region_.GetTopRight();
 
     auto box_padding = 6.0;
@@ -88,6 +95,16 @@ class DrawLegend {
   }
 
  private:
+  std::vector<LegendEntry> FilterLegendEntries(const std::vector<LegendEntry>& legend_entries) {
+    std::vector<LegendEntry> ret;
+    for (auto& it : legend_entries) {
+      // do not add entries with empty label to the legend
+      if (it.label != "") {
+        ret.push_back(it);
+      }
+    }
+    return ret;
+  }
   IDrawPrimitives& draw_primitives_;
   IMeasure& measure_;
   const Rect& content_region_;
