@@ -12,6 +12,8 @@ namespace entities {
 struct LegendEntry {
   std::string label = {""};
   Color color = {Color::kBlack};
+
+  double marker_size = 5;
   MarkerStyle marker_style = {MarkerStyle::kNone};
 };
 

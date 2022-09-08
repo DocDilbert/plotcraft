@@ -286,7 +286,7 @@ bool MyApp::OnInit() {
   plot_craft_.Plot(m_x, m_y_1,
                    {{"label", "My Measurement 1"}, {"color", "blue"}, {"markerstyle", "+"}});
   plot_craft_.Plot(m_x, m_y_2,
-                   {{"label", "My Measurement 2"}, {"color", "red"}, {"markerstyle", ""}});
+                   {{"label", "My Measurement 2"}, {"color", "red"}, {"markerstyle", "s"}});
 
   // plot_craft_.Xlim(-40, 0.0);
   // plot_craft_.Ylim(-1.3, 1.25);

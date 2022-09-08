@@ -36,3 +36,22 @@ TEST(TestDrawLegend, DrawLegendWith2EntriesOneEmptyExpect1DrawTextCall) {
   EXPECT_CALL(mock_draw_primitives, DrawText("TEST", _, _, _)).Times(1);
   draw_legend.Draw(legend);
 }
+
+class MockDrawMarker {
+ public:
+  MOCK_METHOD(void, Draw, (const Point& marker_pos, MarkerStyle markerstyle, double size), ());
+};
+
+TEST(TestDrawLegend, DrawLegendWith2EntryExpectDrawTwoMarkers) {
+  NiceMock<MockDrawPrimitives> mock_draw_primitives;
+  NiceMock<MockMeasure> mock_measure;
+  Rect rect(0.0, 0.0, 100.0, 100.0);
+  DrawLegend draw_legend(mock_draw_primitives, rect, mock_measure);
+
+  std::vector<LegendEntry> legend_entries = {
+      {.label = "TEST1"}, {.label = "TEST2", .marker_style = MarkerStyle::kSquare}};
+  Legend legend = {.entries = legend_entries};
+  MockDrawMarker mock_draw_marker;
+  EXPECT_CALL(mock_draw_marker, Draw(_, _, _)).Times(2);
+  draw_legend.Draw(legend, mock_draw_marker);
+}

@@ -6,6 +6,7 @@
 #include <string>
 
 #include "plotcraft/entities/axis.h"
+#include "plotcraft/entities/draw_marker.h"
 #include "plotcraft/entities/i_draw_primitives.h"
 #include "plotcraft/entities/i_measure.h"
 #include "plotcraft/entities/legend.h"
@@ -21,7 +22,8 @@ class DrawLegend {
 
       : draw_primitives_(draw_primitives), measure_(measure), content_region_(content_region) {}
 
-  void Draw(const Legend& legend) {
+  template <class TDrawMarker>
+  void Draw(const Legend& legend, TDrawMarker& draw_marker) {
     // only consider legend entries which are valid
     auto entries = FilterLegendEntries(legend.entries);
 
@@ -69,17 +71,23 @@ class DrawLegend {
     auto line_x = p0_x + box_padding;
     auto line_y = p0_y + box_height - box_padding;
 
+    const double line_len = 39.0;
     for (auto& it : entries) {
       draw_primitives_.SetPen(it.color, 1.0);
       auto text_extent = measure_.GetTextExtent(it.label, "default", 12);
 
-      auto l = Line(line_x, line_y - text_extent.height * 0.5, line_x + 40,
-                    line_y - text_extent.height * 0.5);
+      auto p0 = Point(line_x, line_y - text_extent.height * 0.5);
+      auto p1 = Point(line_x + line_len, line_y - text_extent.height * 0.5);
+      auto l = Line(p0, p1);
+      auto p_marker = Point(line_x + line_len * 0.5, line_y - text_extent.height * 0.5);
 
       draw_primitives_.DrawLine(l);
+      draw_marker.Draw(p_marker, it.marker_style, it.marker_size);
 
       line_y -= text_extent.height;  // + text_extent.descent;
     }
+    // -----------------
+    // Draw Markers
 
     // -----------------
     // Write texts
@@ -92,6 +100,11 @@ class DrawLegend {
       draw_primitives_.DrawText(it.label, text_x, text_y);
       text_y = text_y - text_extent.height;  // - text_extent.descent;
     }
+  }
+
+  void Draw(const Legend& legend) {
+    auto draw_marker = DrawMarker(draw_primitives_);
+    Draw<DrawMarker>(legend, draw_marker);
   }
 
  private:

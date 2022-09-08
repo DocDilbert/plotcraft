@@ -176,8 +176,10 @@ class DrawFigureInteractor : public IDrawFigureInput {
         e_plots.push_back(e_plot);
 
         // each Plot should gets its own legend entry
-        auto e_legend_entry = entities::LegendEntry{
-            .label = plot.label, .color = e_plot.color, .marker_style = e_plot.marker_style};
+        auto e_legend_entry = entities::LegendEntry{.label = plot.label,
+                                                    .color = e_plot.color,
+                                                    .marker_size = e_plot.marker_size,
+                                                    .marker_style = e_plot.marker_style};
         e_legend_entries.push_back(e_legend_entry);
       }
 

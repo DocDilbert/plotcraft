@@ -57,22 +57,14 @@ class DrawPlot2d {
       draw_primitives_.SetBrush(plot.marker_face_color);
 
       // Draw Markers
+      TDrawMarker draw_marker(draw_primitives_);
       for (size_t i = 0; i < plot.y.size(); i++) {
         auto& x0 = plot.x[i];
         auto& y0 = plot.y[i];
         auto p0 = trafo.Forward(Point(x0, y0));
         // check if the marker is contained in the plotting area
         if (content_region_.Contains(p0)) {
-          switch (plot.marker_style) {
-            case MarkerStyle::kPlus:
-              TDrawMarker::DrawCross(draw_primitives_, p0, plot.marker_size);
-              break;
-            case MarkerStyle::kSquare:
-              TDrawMarker::DrawRect(draw_primitives_, p0, plot.marker_size);
-              break;
-            default:
-              break;
-          }
+          draw_marker.Draw(p0, plot.marker_style, plot.marker_size);
         }
       }
     }
