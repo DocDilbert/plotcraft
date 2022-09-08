@@ -16,7 +16,7 @@ class DrawMarker {
  public:
   DrawMarker(IDrawPrimitives& draw_primitives) : draw_primitives_(draw_primitives) {}
 
-  void DrawCross(const Point& marker_pos, double size) {
+  void DrawPlus(const Point& marker_pos, double size) {
     auto left_h = Point(marker_pos.x - size, marker_pos.y);
     auto right_h = Point(marker_pos.x + size, marker_pos.y);
     auto line_h = Line(left_h, right_h);
@@ -34,13 +34,24 @@ class DrawMarker {
     draw_primitives_.DrawRect(rect);
   }
 
+  void DrawCross(const Point& marker_pos, double size) {
+    auto rect = Rect(marker_pos.x - size, marker_pos.y - size, 2.0 * size, 2.0 * size);
+    auto l0 = Line(rect.GetTopLeft(), rect.GetBottomRight());
+    auto l1 = Line(rect.GetBottomLeft(), rect.GetTopRight());
+    draw_primitives_.DrawLine(l0);
+    draw_primitives_.DrawLine(l1);
+  }
+
   void Draw(const Point& marker_pos, MarkerStyle markerstyle, double size) {
     switch (markerstyle) {
       case MarkerStyle::kPlus:
-        DrawCross(marker_pos, size);
+        DrawPlus(marker_pos, size);
         break;
       case MarkerStyle::kSquare:
         DrawSquare(marker_pos, size);
+        break;
+      case MarkerStyle::kCross:
+        DrawCross(marker_pos, size);
         break;
       default:
         break;

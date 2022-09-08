@@ -19,7 +19,7 @@ struct Plot2d {
 
   Color color = {Color::kBlue};
 
-  double marker_size = 5;
+  double marker_size = 4;
   MarkerStyle marker_style = {MarkerStyle::kPlus};
   Color marker_edge_color = {Color::kRed};
   Color marker_face_color = {Color::kTransparent};

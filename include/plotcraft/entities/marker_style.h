@@ -7,6 +7,7 @@ enum class MarkerStyle {
   kNone,    // No marker
   kPlus,    // '+'
   kSquare,  // square
+  kCross,   // cross
 };
 
 }  // namespace entities

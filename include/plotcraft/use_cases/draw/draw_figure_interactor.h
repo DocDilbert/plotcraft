@@ -166,6 +166,8 @@ class DrawFigureInteractor : public IDrawFigureInput {
           markerstyle = entities::MarkerStyle::kPlus;
         } else if (p_markerstyle == "s") {
           markerstyle = entities::MarkerStyle::kSquare;
+        } else if (p_markerstyle == "x") {
+          markerstyle = entities::MarkerStyle::kCross;
         }
 
         auto e_plot = entities::Plot2d{.x = plot.x,

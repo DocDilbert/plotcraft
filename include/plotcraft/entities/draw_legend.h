@@ -71,7 +71,7 @@ class DrawLegend {
     auto line_x = p0_x + box_padding;
     auto line_y = p0_y + box_height - box_padding;
 
-    const double line_len = 39.0;
+    const double line_len = 37.0;
     for (auto& it : entries) {
       draw_primitives_.SetPen(it.color, 1.0);
       auto text_extent = measure_.GetTextExtent(it.label, "default", 12);
