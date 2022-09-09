@@ -65,6 +65,7 @@ class DrawLegend {
 
     draw_primitives_.SetBrush(Color::kWhite);
     draw_primitives_.DrawRect(legend_box);
+    draw_primitives_.SetBrush(Color::kTransparent);
 
     // -----------------
     // Draw Lines
@@ -86,9 +87,6 @@ class DrawLegend {
 
       line_y -= text_extent.height;  // + text_extent.descent;
     }
-    // -----------------
-    // Draw Markers
-
     // -----------------
     // Write texts
     auto text_x = p0_x + box_padding + signifier_padding;

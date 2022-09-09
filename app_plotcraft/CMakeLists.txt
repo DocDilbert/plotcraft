@@ -1,5 +1,6 @@
 set(APP_SOURCES
   main.cpp
+  simplex_noise.cpp
 )
 
 add_executable(app_plotcraft ${APP_SOURCES})
