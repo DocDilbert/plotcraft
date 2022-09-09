@@ -32,6 +32,7 @@ endmacro()
 
 set(TEST_SOURCES
     plotcraft/entities/test_draw_legend.cpp
+    plotcraft/entities/test_draw_plot2d.cpp
     plotcraft/entities/test_transform.cpp
     plotcraft/entities/test_locators.cpp
 )

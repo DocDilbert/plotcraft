@@ -4,6 +4,7 @@
 
 #include "gmock/gmock.h"
 #include "helpers_draw_primitives.h"
+#include "mock_draw_marker.h"
 #include "mock_draw_primitives.h"
 #include "mock_measure.h"
 #include "plotcraft/entities/draw_legend.h"
@@ -36,11 +37,6 @@ TEST(TestDrawLegend, DrawLegendWith2EntriesOneEmptyExpect1DrawTextCall) {
   EXPECT_CALL(mock_draw_primitives, DrawText("TEST", _, _, _)).Times(1);
   draw_legend.Draw(legend);
 }
-
-class MockDrawMarker {
- public:
-  MOCK_METHOD(void, Draw, (const Point& marker_pos, MarkerStyle markerstyle, double size), ());
-};
 
 TEST(TestDrawLegend, DrawLegendWith2EntryExpectDrawTwoMarkers) {
   NiceMock<MockDrawPrimitives> mock_draw_primitives;

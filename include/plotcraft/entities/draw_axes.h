@@ -16,7 +16,7 @@
 namespace plotcraft {
 namespace entities {
 
-template <class TDrawAxis = DrawAxis, class TDrawPlot2d = DrawPlot2d<>,
+template <class TDrawAxis = DrawAxis, class TDrawPlot2d = DrawPlot2d,
           class TDrawLegend = DrawLegend>
 class DrawAxes {
  public:
