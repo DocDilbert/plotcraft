@@ -24,6 +24,8 @@ using json = nlohmann::json;
 
 class SetAxesPropertiesInteractor : public ISetAxesPropertiesInput {
  private:
+  typedef std::map<std::string, std::string> Options;
+
  public:
   SetAxesPropertiesInteractor(ISetAxesPropertiesOutput& output,
                               ISetAxesPropertiesDataAccess& update_axes_viewport_repo_access)
@@ -48,6 +50,9 @@ class SetAxesPropertiesInteractor : public ISetAxesPropertiesInput {
     } else if (data["property"] == "title") {
       auto text = data["text"].get<std::string>();
       data_access_.SetTitle(request.axes_id, text);
+    } else if (data["property"] == "legend_options") {
+      auto options = data["options"].get<Options>();
+      // currently does nothing
     } else {
       throw std::exception();
     }

@@ -11,6 +11,9 @@ namespace controller {
 using json = nlohmann::json;
 
 class SetAxesPropertiesController {
+ private:
+  typedef std::map<std::string, std::string> Options;
+
  public:
   SetAxesPropertiesController(use_cases::ISetAxesPropertiesInput& output) : output_(output) {}
 
@@ -58,6 +61,15 @@ class SetAxesPropertiesController {
     auto json_request = json();
     json_request["property"] = "title";
     json_request["text"] = text;
+    request.command = json_request.dump();
+    output_.Update(request);
+  }
+
+  void SetLegendOptions(const std::string& axes_id, const Options& options) {
+    use_cases::SetAxesPropertiesRequest request = {.axes_id = axes_id};
+    auto json_request = json();
+    json_request["property"] = "legend_options";
+    json_request["options"] = options;
     request.command = json_request.dump();
     output_.Update(request);
   }

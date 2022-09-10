@@ -15,20 +15,23 @@ class logger;
 namespace plotcraft {
 
 class PlotCraft {
+ private:
+  typedef std::map<std::string, std::string> Options;
+
  public:
   PlotCraft();
   virtual ~PlotCraft();
 
   void Figure();
-  void Plot(const std::vector<double>& x, const std::vector<double>& y,
-            const std::map<std::string, std::string> options = {});
+  void Plot(const std::vector<double>& x, const std::vector<double>& y, const Options options = {});
   void Draw(plotcraft::presenter::IDrawPrimitives& draw_primitives,
             plotcraft::gateway::IMeasure& measure, int left, int bottom, int width, int height);
   void Xlim(double left, double right);
   void Ylim(double bottom, double top);
-  void XLabel(const std::string& text);
-  void YLabel(const std::string& text);
-  void Title(const std::string& text);
+  void XLabel(const std::string text);
+  void YLabel(const std::string text);
+  void Title(const std::string text);
+  void Legend(const std::vector<std::string> labels, const Options options = {});
 
  private:
   struct PlotCraftImpl;

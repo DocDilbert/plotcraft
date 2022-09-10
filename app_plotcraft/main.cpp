@@ -297,10 +297,11 @@ bool MyApp::OnInit() {
 
   // plot_craft_.Xlim(-40, 0.0);
   // plot_craft_.Ylim(-1.3, 1.25);
-  plot_craft_.YLabel("Voltage (V)");
+  plot_craft_.YLabel("Amplitude");
   // plot_craft_.YLabel("XXX");
-  plot_craft_.XLabel("Time(s)");
-  plot_craft_.Title("My Title");
+  plot_craft_.XLabel("x coordinate");
+  plot_craft_.Title("Simplex noise");
+  plot_craft_.Legend({"1 octave", "2 octaves", "4 octaves"});
   drawPane = new BasicDrawPane((wxFrame*)frame, plot_craft_);
   sizer->Add(drawPane, 1, wxEXPAND);
 

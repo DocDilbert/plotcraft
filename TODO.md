@@ -1,0 +1,8 @@
+- Rename Update*Range in Set*Range
+- Rework Presenters for Set*Properties to give meaningful results.
+    - What was changed...name of property
+    - The value which was updated
+    - ...
+- Add Diamond marker
+- Add dashed line style
+- Add color class
