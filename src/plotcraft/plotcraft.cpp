@@ -87,7 +87,7 @@ void PlotCraft::Plot(const std::vector<double>& x, const std::vector<double>& y,
 void PlotCraft::Draw(plotcraft::presenter::IDrawPrimitives& draw_primitives,
                      plotcraft::gateway::IMeasure& measure, int left, int bottom, int width,
                      int height) {
-  spdlog::info("Drawing of figure '{}' started", figure_id_);
+  spdlog::info("Drawing of figure '{}' started. width={}, height={}", figure_id_, width, height);
   plotcraft::gateway::MeasureGateway measure_gw(measure);
   plotcraft::data::DrawFigureDataAdapter draw_figure_data_adapter(pimpl_->repo);
   plotcraft::presenter::DrawPresenter draw_presenter(draw_primitives);
