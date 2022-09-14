@@ -6,3 +6,8 @@
 - Add Diamond marker
 - Add dashed line style
 - Add color class
+
+- Move draw* to use case
+- Add expand inflate to rect 
+- presenter returning object ids
+- Library state . Active Figure . Active Axis etc.
