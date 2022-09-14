@@ -11,3 +11,5 @@
 - Add expand inflate to rect 
 - presenter returning object ids
 - Library state . Active Figure . Active Axis etc.
+
+- Legend . Combine to one use case 
