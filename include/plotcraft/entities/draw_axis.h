@@ -1,5 +1,7 @@
 #pragma once
 
+#include <spdlog/spdlog.h>
+
 #include <iomanip>
 #include <iostream>
 #include <sstream>
@@ -42,6 +44,7 @@ class DrawAxis {
       vmin = viewport_.left;
       vmax = viewport_.left + viewport_.width;
     }
+    spdlog::trace("DrawAxis: vmin={}, vmax={}", vmin, vmax);
 
     auto tvmin = ToString(vmin);
     auto tvmax = ToString(vmax);

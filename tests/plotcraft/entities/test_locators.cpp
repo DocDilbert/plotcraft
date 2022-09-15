@@ -31,3 +31,12 @@ TEST(TestMaxNLocator, TestGetTickValuesInterval0To01p3VectorWith6Elements) {
   ASSERT_THAT(res, ElementsAre(DoubleEq(0.0), DoubleEq(0.25), DoubleEq(0.5), DoubleEq(0.75),
                                DoubleEq(1.0), DoubleEq(1.25)));
 }
+
+TEST(TestMaxNLocator, TestGetTickValuesInterval0p68To01p6VectorWith6Elements) {
+  MaxNLocator max_n_loc(10);
+
+  auto res = max_n_loc.GetTickValues(0.68, 1.6);
+  ASSERT_THAT(
+      res, ElementsAre(DoubleEq(0.7), DoubleEq(0.8), DoubleEq(0.9), DoubleEq(1.0), DoubleEq(1.1),
+                       DoubleEq(1.2), DoubleEq(1.3), DoubleEq(1.4), DoubleEq(1.5), DoubleEq(1.6)));
+}
