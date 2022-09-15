@@ -7,10 +7,6 @@
 #include "plotcraft/gateway/i_measure.h"
 #include "plotcraft/presenter/i_draw_primitives.h"
 
-namespace spdlog {
-class logger;
-}
-
 /// \brief namespace of plotcraft library
 namespace plotcraft {
 
