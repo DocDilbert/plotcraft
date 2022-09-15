@@ -7,14 +7,14 @@
 namespace plotcraft {
 namespace use_cases {
 
-struct SetPlotListPropertiesRequest {
+struct SetFigurePropertiesRequest {
   const std::string& axes_id;
   std::string command;
 };
 
-class ISetPlotListPropertiesInput {
+class ISetFigurePropertiesInput {
  public:
-  virtual void Update(SetPlotListPropertiesRequest request) = 0;
+  virtual void Update(SetFigurePropertiesRequest request) = 0;
 };
 
 }  // namespace use_cases

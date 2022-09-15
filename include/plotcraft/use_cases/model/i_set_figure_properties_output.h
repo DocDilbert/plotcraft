@@ -5,14 +5,14 @@
 namespace plotcraft {
 namespace use_cases {
 
-struct SetPlotListPropertiesResponse {
+struct SetFigurePropertiesResponse {
   std::string figure_id;  ///< Id of created figure
   std::string axes_id;    ///< Id of created axes
 };
 
-class ISetPlotListPropertiesOutput {
+class ISetFigurePropertiesOutput {
  public:
-  virtual void IsViewportChange(SetPlotListPropertiesResponse response) = 0;
+  virtual void IsViewportChange(SetFigurePropertiesResponse response) = 0;
 };
 
 }  // namespace use_cases

@@ -10,11 +10,8 @@
 - Add relational expand inflate to rect. 
 - presenter returning object ids
 - Library state . Active Figure . Active Axis etc.
-- Legend . Combine to one use case 
-- Deactivate legend without that the legend command was called
-    - Add legend command without options
 - Add hold on off
 - Separate includes and source in app_plotcraft
 - Write a separate wx Component to show plotcraft plots. Remove DrawPane 
 - Add savefig usecase
-- Rename framework dir to a name which is fitting better.
+- Rename framework dir to a name which fits better.

@@ -48,7 +48,8 @@ class DrawFigureDataAdapter : public use_cases::IDrawFigureDataAccesss {
                                                     .plots = {},
                                                     .xlabel = axes.xlabel,
                                                     .ylabel = axes.ylabel,
-                                                    .title = axes.title
+                                                    .title = axes.title,
+                                                    .legend_enable = axes.legend_enable
 
     };
 

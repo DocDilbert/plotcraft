@@ -28,6 +28,7 @@ class PlotCraft {
   void XLabel(const std::string text);
   void YLabel(const std::string text);
   void Title(const std::string text);
+  void Legend();
   void Legend(const std::vector<std::string> labels, const Options options = {});
 
  private:

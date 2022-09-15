@@ -185,7 +185,7 @@ class DrawFigureInteractor : public IDrawFigureInput {
         e_legend_entries.push_back(e_legend_entry);
       }
 
-      entities::Legend e_legend = {.entries = e_legend_entries};
+      entities::Legend e_legend = {.enable = axes_data.legend_enable, .entries = e_legend_entries};
 
       e_axes.push_back(entities::Axes{
           .viewport = entities::Rect(axes_data.viewport_left, axes_data.viewport_bottom,

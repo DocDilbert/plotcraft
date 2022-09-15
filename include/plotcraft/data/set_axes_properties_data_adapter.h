@@ -48,6 +48,27 @@ class SetAxesPropertiesDataAdapter : public use_cases::ISetAxesPropertiesDataAcc
     repo_.UpdateAxes(axes_id, axes);
   }
 
+  void SetLegendEnable(const std::string& axes_id, bool enable) override {
+    auto axes = repo_.GetAxes(axes_id);
+    axes.legend_enable = enable;
+    repo_.UpdateAxes(axes_id, axes);
+  }
+
+  void SetLegendLabels(const std::string& axes_id,
+                       const std::vector<std::string>& entries) override {
+    auto axes = repo_.GetAxes(axes_id);
+    auto n_entries = entries.size();
+    auto n_plots = axes.plots.size();
+
+    auto n = std::min(n_plots, n_entries);
+    for (size_t i = 0; i < n; i++) {
+      auto& entry_str = entries[i];
+      auto& plot = axes.plots[i];
+      plot.label = entry_str;
+    }
+    repo_.UpdateAxes(axes_id, axes);
+  }
+
  private:
   data::Repository& repo_;
 };

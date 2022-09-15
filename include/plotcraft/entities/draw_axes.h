@@ -54,8 +54,10 @@ class DrawAxes {
     draw_primitives_.DrawRect(content_region_);
     draw_primitives_.SetFont(Color::kBlack);
 
-    auto draw_legend = TDrawLegend(draw_primitives_, content_region_, measure_);
-    draw_legend.Draw(axes.legend);
+    if (axes.legend.enable) {
+      auto draw_legend = TDrawLegend(draw_primitives_, content_region_, measure_);
+      draw_legend.Draw(axes.legend);
+    }
   }
 
  private:

@@ -18,6 +18,7 @@ struct LegendEntry {
 };
 
 struct Legend {
+  bool enable = {false};
   std::vector<LegendEntry> entries;
 };
 

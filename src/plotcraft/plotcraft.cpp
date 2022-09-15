@@ -13,13 +13,13 @@
 #include "plotcraft/controller/draw_controller.h"
 #include "plotcraft/controller/plot_controller.h"
 #include "plotcraft/controller/set_axes_properties_controller.h"
-#include "plotcraft/controller/set_plot_list_properties_controller.h"
+#include "plotcraft/controller/set_figure_properties_controller.h"
 #include "plotcraft/data/create_fig_and_axes_data_adapter.h"
 #include "plotcraft/data/create_plot_data_adapter.h"
 #include "plotcraft/data/draw_figure_data_adapter.h"
 #include "plotcraft/data/repository.h"
 #include "plotcraft/data/set_axes_properties_data_adapter.h"
-#include "plotcraft/data/set_plot_list_properties_data_adapter.h"
+#include "plotcraft/data/set_figure_properties_data_adapter.h"
 #include "plotcraft/framework/id_generator.h"
 #include "plotcraft/gateway/measure_gateway.h"
 #include "plotcraft/presenter/create_fig_and_axis_presenter.h"
@@ -27,13 +27,13 @@
 #include "plotcraft/presenter/i_draw_primitives.h"
 #include "plotcraft/presenter/plot_presenter.h"
 #include "plotcraft/presenter/set_axes_properties_presenter.h"
-#include "plotcraft/presenter/set_plot_list_properties_presenter.h"
+#include "plotcraft/presenter/set_figure_properties_presenter.h"
 #include "plotcraft/use_cases/draw/draw_figure_interactor.h"
 #include "plotcraft/use_cases/i_measure.h"
 #include "plotcraft/use_cases/model/create_fig_and_axes_interactor.h"
 #include "plotcraft/use_cases/model/create_plot_interactor.h"
 #include "plotcraft/use_cases/model/set_axes_properties_interactor.h"
-#include "plotcraft/use_cases/model/set_plot_list_properties_interactor.h"
+#include "plotcraft/use_cases/model/set_figure_properties_interactor.h"
 
 namespace plotcraft {
 
@@ -193,23 +193,7 @@ void PlotCraft::Title(const std::string text) {
   }
 }
 
-void PlotCraft::Legend(const std::vector<std::string> labels, const Options options) {
-  // --- Set All Plots use case
-  plotcraft::data::SetPlotListPropertiesDataAdapter set_plot_list_properties_data_adapter(
-      pimpl_->repo);
-
-  plotcraft::presenter::SetPlotListPropertiesPresenter set_plot_list_properties_presenter;
-  plotcraft::use_cases::SetPlotListPropertiesInteractor set_plot_list_properties_interactor(
-      set_plot_list_properties_presenter, set_plot_list_properties_data_adapter);
-
-  plotcraft::controller::SetPlotListPropertiesController set_plot_list_properties_controller(
-      set_plot_list_properties_interactor);
-
-  set_plot_list_properties_controller.SetPlotLabels(axes_id_, labels);
-
-  if (set_plot_list_properties_presenter.IsCreated()) {
-    spdlog::info("SetPlotLabels returned successfully");
-  }
+void PlotCraft::Legend() {
   // ---
   // Set axes properties use case
   plotcraft::data::SetAxesPropertiesDataAdapter set_axes_properties_data_adapter(pimpl_->repo);
@@ -221,10 +205,29 @@ void PlotCraft::Legend(const std::vector<std::string> labels, const Options opti
   plotcraft::controller::SetAxesPropertiesController set_axes_properties_controller(
       set_axes_properties_interactor);
 
-  set_axes_properties_controller.SetLegendOptions(axes_id_, options);
+  set_axes_properties_controller.SetLegend(axes_id_, true);
 
   if (set_axes_properties_presenter.IsCreated()) {
-    spdlog::info("SetLegendOptions returned successfully");
+    spdlog::info("Legend returned successfully");
+  }
+}
+
+void PlotCraft::Legend(const std::vector<std::string> labels, const Options options) {
+  // ---
+  // Set axes properties use case
+  plotcraft::data::SetAxesPropertiesDataAdapter set_axes_properties_data_adapter(pimpl_->repo);
+
+  plotcraft::presenter::SetAxesPropertiesPresenter set_axes_properties_presenter;
+  plotcraft::use_cases::SetAxesPropertiesInteractor set_axes_properties_interactor(
+      set_axes_properties_presenter, set_axes_properties_data_adapter);
+
+  plotcraft::controller::SetAxesPropertiesController set_axes_properties_controller(
+      set_axes_properties_interactor);
+
+  set_axes_properties_controller.SetLegend(axes_id_, true, labels, options);
+
+  if (set_axes_properties_presenter.IsCreated()) {
+    spdlog::info("Legend returned successfully");
   }
 }
 }  // namespace plotcraft

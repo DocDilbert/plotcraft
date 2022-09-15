@@ -3,16 +3,16 @@
 #include <iostream>
 #include <memory>
 
-#include "plotcraft/use_cases/model/i_set_plot_list_properties_output.h"
+#include "plotcraft/use_cases/model/i_set_figure_properties_output.h"
 
 namespace plotcraft {
 namespace presenter {
 
-class SetPlotListPropertiesPresenter : public use_cases::ISetPlotListPropertiesOutput {
+class SetFigurePropertiesPresenter : public use_cases::ISetFigurePropertiesOutput {
  public:
-  SetPlotListPropertiesPresenter() {}
+  SetFigurePropertiesPresenter() {}
 
-  void IsViewportChange(use_cases::SetPlotListPropertiesResponse response) override {
+  void IsViewportChange(use_cases::SetFigurePropertiesResponse response) override {
     is_created_ = true;
     figure_id_ = response.figure_id;
     axes_id_ = response.axes_id;

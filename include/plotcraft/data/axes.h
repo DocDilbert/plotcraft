@@ -24,6 +24,8 @@ struct Axes {
   std::string xlabel = {""};
   std::string ylabel = {""};
   std::string title = {""};
+
+  bool legend_enable = {false};
 };
 
 }  // namespace data

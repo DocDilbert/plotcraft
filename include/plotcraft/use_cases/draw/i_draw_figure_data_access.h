@@ -39,6 +39,7 @@ class IDrawFigureDataAccesss {
     std::string xlabel;
     std::string ylabel;
     std::string title;
+    bool legend_enable;
   };
 
   virtual std::vector<std::string> GetAxesIds(const std::string& figure_id) = 0;

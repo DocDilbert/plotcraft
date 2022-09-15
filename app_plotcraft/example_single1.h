@@ -23,7 +23,6 @@ class ExampleSingle1 : public IExample {
       m_x.push_back(x);
       m_y_1.push_back(y1);
     }
-
     plot_craft_.Plot(
         m_x, m_y_1, {{"label", "Simplex noise 1 octave"}, {"color", "blue"}, {"markerstyle", "x"}});
   }
