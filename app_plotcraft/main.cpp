@@ -7,10 +7,13 @@
 #include <memory>
 #include <utility>
 
-#include "example1.h"
-#include "example2.h"
-#include "i_example.h"
+#include "example_factory.h"
+#include "example_multiple1.h"
+#include "example_single1.h"
+#include "example_single2.h"
 #include "my_frame.h"
+
+typedef ExampleFactory<ExampleSingle1, ExampleSingle2, ExampleMultiple1> AllExampleFactory;
 
 class MyApp : public wxApp {
   bool OnInit();
@@ -19,7 +22,10 @@ class MyApp : public wxApp {
   int OnExit();
 
   bool DoParseCommandLine(int argc, const char** argv);
-  MyFrame* frame;
+
+ private:
+  MyFrame* frame_;
+  AllExampleFactory exfactory_;
 };
 
 IMPLEMENT_APP(MyApp)
@@ -43,13 +49,9 @@ bool MyApp::OnInit() {
 
   wxInitAllImageHandlers();
 
-  std::vector<std::shared_ptr<IExample>> examples;
-  examples.push_back(std::make_shared<Example1>());
-  examples.push_back(std::make_shared<Example2>());
+  frame_ = new MyFrame(wxT("Hello wxDC"), exfactory_);
 
-  frame = new MyFrame(wxT("Hello wxDC"), examples);
-
-  frame->Show();
+  frame_->Show();
   return true;
 }
 

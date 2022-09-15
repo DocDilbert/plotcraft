@@ -3,17 +3,18 @@
 #include <spdlog/spdlog.h>
 #include <wx/dcgraph.h>
 #include <wx/graphics.h>
-#include <wx/sizer.h>
-#include <wx/wx.h>
+#include <wx/panel.h>
 
-#include "draw_primitives.h"
-#include "plotcraft/plotcraft.h"
+#include <memory>
 
-class DrawPane : public wxPanel {
+namespace plotcraft {
+class PlotCraft;
+}
+
+class wxPlotcraft : public wxPanel {
  public:
-  DrawPane(wxFrame* parent);
-
-  void SelectPlotCraftInstance(plotcraft::PlotCraft* plot_craft);
+  wxPlotcraft(wxFrame* parent, plotcraft::PlotCraft& plot_craft);
+  virtual ~wxPlotcraft();
 
   void paintEvent(wxPaintEvent& evt);
   void paintEventMemoryDc();
@@ -37,6 +38,8 @@ class DrawPane : public wxPanel {
   void LogBitmapOptions(wxBitmap& bitmap);
   void LogGraphicsContextOptions(wxGraphicsContext& gc);
 
-  plotcraft::PlotCraft* plot_craft_;
+  struct wxPlotCraftImpl;
+  std::unique_ptr<wxPlotCraftImpl> pimpl_;
+  plotcraft::PlotCraft& plot_craft_;
 };
 

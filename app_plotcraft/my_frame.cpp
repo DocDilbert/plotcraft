@@ -1,14 +1,16 @@
 #include "my_frame.h"
 
+#include <wx/sizer.h>
+
 const int ID_LISTBOX = 5;
 
-MyFrame::MyFrame(const wxString& title, const std::vector<std::shared_ptr<IExample>> examples)
-    : wxFrame((wxFrame*)NULL, -1, title, wxPoint(50, 50), wxSize(800, 600)), examples_(examples) {
-  int i = 0;
+MyFrame::MyFrame(const wxString& title, IExampleFactory& example_factory)
+    : wxFrame((wxFrame*)NULL, -1, title, wxPoint(50, 50), wxSize(800, 600)),
+      example_factory_(example_factory) {
+#ifdef _1_
   for (auto& it : examples_) {
     it->Execute();
 
-#ifdef _1_
     // content scale factor
     auto content_scale_factor = 2;
 
@@ -37,38 +39,45 @@ MyFrame::MyFrame(const wxString& title, const std::vector<std::shared_ptr<IExamp
     std::string filename = "example" + std::to_string(i) + ".png";
     bitmap.SaveFile(filename, wxBitmapType::wxBITMAP_TYPE_PNG);
 
-#endif
     i++;
   }
 
-  drawpane_ = new DrawPane((wxFrame*)this);
-  drawpane_->SelectPlotCraftInstance(&examples_[0]->GetPlotcraftRef());
-  listbox_ = new wxListBox((wxFrame*)this, ID_LISTBOX, wxDefaultPosition, wxDefaultSize);
+#endif
+  listbox_ = new wxListBox((wxFrame*)this, wxID_ANY, wxDefaultPosition, wxDefaultSize);
 
   Connect(wxEVT_LISTBOX, wxCommandEventHandler(MyFrame::OnSelect));
 
-  i = 0;
-  for (auto& it : examples_) {
-    listbox_->Append(it->GetTitle());
+  for (int i = 0; i < example_factory_.Count(); i++) {
+    auto title = example_factory_.GetTitle(i);
+    listbox_->Append(title);
   }
   listbox_->Select(0);
 
   listbox_->SetMaxSize(wxSize(200, wxDefaultCoord));
-  wxBoxSizer* sizer = new wxBoxSizer(wxHORIZONTAL);
-  sizer->Add(listbox_, 10, wxEXPAND);
-  sizer->Add(drawpane_, 40, wxEXPAND);
+  sizer_ = new wxBoxSizer(wxHORIZONTAL);
+  sizer_->Add(listbox_, 10, wxEXPAND);
 
-  SetSizer(sizer);
+  active_example_ = example_factory_.Create(0);
+  drawpane_ = new wxPlotcraft((wxFrame*)this, active_example_->GetPlotcraftRef());
+  sizer_->Add(drawpane_, 40, wxEXPAND);
+
+  SetSizer(sizer_);
   SetAutoLayout(true);
 }
 
 void MyFrame::OnSelect(wxCommandEvent& event) {
   int sel = listbox_->GetSelection();
   if (sel != -1) {
-    spdlog::info("OnSelect {}", sel);
+    spdlog::debug("OnSelect {}", sel);
 
-    drawpane_->SelectPlotCraftInstance(&examples_[sel]->GetPlotcraftRef());
+    active_example_ = example_factory_.Create(sel);
+    auto* drawpane_new = new wxPlotcraft((wxFrame*)this, active_example_->GetPlotcraftRef());
+
+    sizer_->Replace(drawpane_, drawpane_new);
+    drawpane_->Destroy();
+
+    drawpane_ = drawpane_new;
+    Layout();
   }
-  drawpane_->Refresh();
 }
 

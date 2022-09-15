@@ -17,3 +17,4 @@
 - Separate includes and source in app_plotcraft
 - Write a separate wx Component to show plotcraft plots. Remove DrawPane 
 - Add savefig usecase
+- Rename framework dir to a name which is fitting better.

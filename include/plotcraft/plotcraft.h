@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "plotcraft/gateway/i_measure.h"
+#include "plotcraft/platforms/wxwidgets/wx_plotcraft.h"
 #include "plotcraft/presenter/i_draw_primitives.h"
 
 /// \brief namespace of plotcraft library

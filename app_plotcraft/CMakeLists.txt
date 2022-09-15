@@ -1,6 +1,5 @@
 set(APP_SOURCES
   main.cpp
-  draw_pane.cpp
   my_frame.cpp
   simplex_noise.cpp
 )

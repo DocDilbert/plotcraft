@@ -6,7 +6,8 @@
 #include <wx/sizer.h>
 #include <wx/wx.h>
 
-#include "plotcraft/plotcraft.h"
+#include "plotcraft/gateway/i_measure.h"
+#include "plotcraft/presenter/i_draw_primitives.h"
 
 class DrawPrimitives : public plotcraft::presenter::IDrawPrimitives,
                        public plotcraft::gateway::IMeasure {
