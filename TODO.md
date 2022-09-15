@@ -7,7 +7,7 @@
 - Add dashed line style
 - Add color class
 - Move draw* to use case
-- Add expand inflate to rect 
+- Add relational expand inflate to rect. 
 - presenter returning object ids
 - Library state . Active Figure . Active Axis etc.
 - Legend . Combine to one use case 
@@ -16,4 +16,4 @@
 - Add hold on off
 - Separate includes and source in app_plotcraft
 - Write a separate wx Component to show plotcraft plots. Remove DrawPane 
-- Bugfix: Tick in example is wrong
+- Add savefig usecase
