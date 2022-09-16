@@ -24,8 +24,9 @@ class MyApp : public wxApp {
   bool DoParseCommandLine(int argc, const char** argv);
 
  private:
+  bool saveall_ = {false};
   MyFrame* frame_;
-  AllExampleFactory exfactory_;
+  AllExampleFactory example_factory_;
 };
 
 IMPLEMENT_APP(MyApp)
@@ -48,10 +49,19 @@ bool MyApp::OnInit() {
                wxSUBRELEASE_NUMBER);
 
   wxInitAllImageHandlers();
+  if (saveall_) {
+    for (int i = 0; i < example_factory_.Count(); i++) {
+      auto title = example_factory_.GetTitle(i);
 
-  frame_ = new MyFrame(wxT("Hello wxDC"), exfactory_);
-
-  frame_->Show();
+      auto example = example_factory_.Create(i);
+      auto& plotcraft = example->GetPlotcraftRef();
+      plotcraft.SaveFig(title + ".png");
+    }
+    return false;
+  } else {
+    frame_ = new MyFrame(wxT("Hello wxDC"), example_factory_);
+    frame_->Show();
+  }
   return true;
 }
 
@@ -71,6 +81,7 @@ bool MyApp::DoParseCommandLine(int argc, const char** argv) {
   // clang-format off
   options.add_options()
     ("v,verbose", "Verbose output", cxxopts::value<bool>()->default_value("false"))
+    ("s,saveall", "Save all examples to png",  cxxopts::value<bool>()->default_value("false"))
     ("h,help", "Print usage")
     ;
   // clang-format on
@@ -91,7 +102,7 @@ bool MyApp::DoParseCommandLine(int argc, const char** argv) {
     std::cout << options.help() << std::endl;
     return false;
   }
-
+  saveall_ = result["saveall"].as<bool>();
   // Enable logging
   switch (result.count("verbose")) {
     case 0:

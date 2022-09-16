@@ -2,16 +2,24 @@
 - Rework Presenters for Set*Properties to give meaningful results.
     - What was changed...name of property
     - The value which was updated
+    - presenter returning object ids
     - ...
 - Add Diamond/Circle marker
 - Add dashed line style
 - Add color class
-- Move draw* to use case
-- Add relational expand inflate to rect. 
-- presenter returning object ids
+- Refactoring
+    - Move draw* to use cases
+    - Move locators* to use cases
+    - Separate includes and source in app_plotcraft
+- Add relational expand inflate to rect. Bugfix when multiple measurements are added
 - Library state . Active Figure . Active Axis etc.
-- Add hold on off
-- Separate includes and source in app_plotcraft
-- Write a separate wx Component to show plotcraft plots. Remove DrawPane 
-- Add savefig usecase
+- Add hold on off command
 - Rename framework dir to a name which fits better.
+- Separate Measure and Draw Primitives implementations in platforms dir.
+- Add a null implementation to platforms
+- Add show Command with wxPlotCraft as Argument.
+- Write hybrid app ... console and gui
+- All examples should return their filenames.
+- Add namespace to platform components 
+- Rework logging in plotcraft.cpp
+- Rename wxPlotcraft to wxPlotCraftPanel

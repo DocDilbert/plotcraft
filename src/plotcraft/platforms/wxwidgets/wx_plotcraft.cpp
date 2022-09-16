@@ -2,7 +2,7 @@
 
 #include <spdlog/spdlog.h>
 
-#include "plotcraft/platforms/wxwidgets/draw_primitives.h"
+#include "plotcraft/platforms/wxwidgets/wx_draw_primitives.h"
 #include "plotcraft/plotcraft.h"
 
 BEGIN_EVENT_TABLE(wxPlotcraft, wxPanel)
@@ -71,7 +71,7 @@ void wxPlotcraft::paintEventMemoryDc() {
   }
   LogGraphicsContextOptions(*gc);
 
-  DrawPrimitives dp(*gc);
+  wxDrawPrimitives dp(*gc);
   if (gc) {
     double width = 0.0f;
     double height = 0.0f;
@@ -82,7 +82,6 @@ void wxPlotcraft::paintEventMemoryDc() {
 
   m_dc.SelectObject(wxNullBitmap);
   dc.DrawBitmap(bitmap, 0, 0);
-  bitmap.SaveFile("test.png", wxBitmapType::wxBITMAP_TYPE_PNG);
 }
 
 void wxPlotcraft::paintEventDc() {
@@ -96,7 +95,7 @@ void wxPlotcraft::paintEventDc() {
   }
   LogGraphicsContextOptions(*gc);
 
-  DrawPrimitives dp(*gc);
+  wxDrawPrimitives dp(*gc);
   if (gc) {
     double width = 0.0f;
     double height = 0.0f;

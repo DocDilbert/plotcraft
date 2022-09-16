@@ -7,42 +7,6 @@ const int ID_LISTBOX = 5;
 MyFrame::MyFrame(const wxString& title, IExampleFactory& example_factory)
     : wxFrame((wxFrame*)NULL, -1, title, wxPoint(50, 50), wxSize(800, 600)),
       example_factory_(example_factory) {
-#ifdef _1_
-  for (auto& it : examples_) {
-    it->Execute();
-
-    // content scale factor
-    auto content_scale_factor = 2;
-
-    wxBitmap bitmap = wxBitmap();
-    bitmap.CreateWithDIPSize(800, 572, content_scale_factor, wxBITMAP_SCREEN_DEPTH);
-
-    wxMemoryDC m_dc;
-    m_dc.SelectObject(bitmap);
-    wxGraphicsContext* gc = wxGraphicsContext::Create(m_dc);
-
-    if (gc->SetAntialiasMode(wxAntialiasMode::wxANTIALIAS_DEFAULT)) {
-      spdlog::info("Anti Aliasing enabled");
-    }
-
-    DrawPrimitives dp(*gc);
-    if (gc) {
-      double width = 0.0f;
-      double height = 0.0f;
-      gc->GetSize(&width, &height);
-      auto& plot_craft = it->GetPlotcraftRef();
-      plot_craft.Draw(dp, dp, 0, 0, width, height);
-      delete gc;
-    }
-
-    m_dc.SelectObject(wxNullBitmap);
-    std::string filename = "example" + std::to_string(i) + ".png";
-    bitmap.SaveFile(filename, wxBitmapType::wxBITMAP_TYPE_PNG);
-
-    i++;
-  }
-
-#endif
   listbox_ = new wxListBox((wxFrame*)this, wxID_ANY, wxDefaultPosition, wxDefaultSize);
 
   Connect(wxEVT_LISTBOX, wxCommandEventHandler(MyFrame::OnSelect));

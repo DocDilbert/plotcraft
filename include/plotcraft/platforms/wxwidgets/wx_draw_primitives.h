@@ -9,10 +9,10 @@
 #include "plotcraft/gateway/i_measure.h"
 #include "plotcraft/presenter/i_draw_primitives.h"
 
-class DrawPrimitives : public plotcraft::presenter::IDrawPrimitives,
-                       public plotcraft::gateway::IMeasure {
+class wxDrawPrimitives : public plotcraft::presenter::IDrawPrimitives,
+                         public plotcraft::gateway::IMeasure {
  public:
-  DrawPrimitives(wxGraphicsContext& gc) : gc_(gc) {}
+  wxDrawPrimitives(wxGraphicsContext& gc) : gc_(gc) {}
 
   void DrawText(std::string text, double x, double y, double angle) override {
     double screen_height = 0.0f;

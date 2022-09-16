@@ -30,6 +30,7 @@ class PlotCraft {
   void Title(const std::string text);
   void Legend();
   void Legend(const std::vector<std::string> labels, const Options options = {});
+  void SaveFig(const std::string& filename);
 
  private:
   struct PlotCraftImpl;

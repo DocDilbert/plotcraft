@@ -3,6 +3,7 @@
 #include <fmt/core.h>
 #include <spdlog/sinks/stdout_color_sinks.h>
 
+#include <exception>
 #include <iostream>
 #include <memory>
 #include <nlohmann/json.hpp>
@@ -22,6 +23,7 @@
 #include "plotcraft/data/set_figure_properties_data_adapter.h"
 #include "plotcraft/framework/id_generator.h"
 #include "plotcraft/gateway/measure_gateway.h"
+#include "plotcraft/platforms/wxwidgets/wx_draw_context.h"
 #include "plotcraft/presenter/create_fig_and_axis_presenter.h"
 #include "plotcraft/presenter/draw_presenter.h"
 #include "plotcraft/presenter/i_draw_primitives.h"
@@ -228,6 +230,35 @@ void PlotCraft::Legend(const std::vector<std::string> labels, const Options opti
 
   if (set_axes_properties_presenter.IsCreated()) {
     spdlog::info("Legend returned successfully");
+  }
+}
+
+void PlotCraft::SaveFig(const std::string& filename) {
+  const auto left = 0;
+  const auto bottom = 0;
+  const auto width = 800;
+  const auto height = 600;
+  wxDrawContext context;
+
+  if (context.Prepare(width, height)) {
+    auto& dp = context.GetDrawPrimitives();
+    auto& measure = context.GetMeasure();
+    spdlog::info("Drawing of figure '{}' started. width={}, height={}", figure_id_, width, height);
+    plotcraft::gateway::MeasureGateway measure_gw(measure);
+    plotcraft::data::DrawFigureDataAdapter draw_figure_data_adapter(pimpl_->repo);
+    plotcraft::presenter::DrawPresenter draw_presenter(dp);
+
+    plotcraft::use_cases::DrawFigureInteractor draw_figure_interactor(
+        draw_presenter, draw_figure_data_adapter, measure_gw);
+
+    plotcraft::controller::DrawController draw_controller(draw_figure_interactor);
+    try {
+      draw_controller.Draw(figure_id_, left, bottom, width, height);
+    } catch (const std::exception& exc) {
+      std::cout << "EXCEPTION " << exc.what() << std::endl;
+      exit(-1);
+    }
+    context.Post({{"filename", filename}});
   }
 }
 }  // namespace plotcraft
