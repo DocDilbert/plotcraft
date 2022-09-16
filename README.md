@@ -1,8 +1,12 @@
 # plotcraft
 
-A c++ plotting library.
+A c++ plotting library with a matplotlib like interface.  The library is designed to be platform independent and framework independent. 
+It can be used together with various ui/drawing frameworks which support basic drawing operations (e.g. line, rect, ..). This makes it especially
+suitable for cli only applications.
 
-This library tries to be a platform independent and framework independent plotting library. It is in the development phase. Breaking changes will happen quite often.
+![Alt text](/docs/showcase1.png "Optional title")
+
+:warning: The project is currently in the development phase. Breaking changes will happen quite often.
 
 The project consists of the library itself and an example application which uses WxWidgets as presentation framework. 
 
