@@ -6,13 +6,14 @@
 #include "helpers_draw_primitives.h"
 #include "mock_draw_marker.h"
 #include "mock_draw_primitives.h"
-#include "plotcraft/entities/draw_plot2d.h"
+#include "plotcraft/use_cases/draw/draw_plot2d.h"
 
 using ::testing::_;
 using ::testing::DoubleEq;
 using ::testing::NiceMock;
 
 using namespace plotcraft::entities;
+using namespace plotcraft::use_cases;
 
 TEST(TestDrawPlot2d, DrawEmptyVectorsExpectNoDrawCalls) {
   NiceMock<MockDrawPrimitives> mock_draw_primitives;

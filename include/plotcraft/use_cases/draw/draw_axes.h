@@ -1,4 +1,3 @@
-
 #pragma once
 #include <spdlog/spdlog.h>
 
@@ -7,20 +6,21 @@
 #include <vector>
 
 #include "plotcraft/entities/axes.h"
-#include "plotcraft/entities/draw_axis.h"
-#include "plotcraft/entities/draw_legend.h"
-#include "plotcraft/entities/draw_plot2d.h"
-#include "plotcraft/entities/i_draw_primitives.h"
-#include "plotcraft/entities/i_measure.h"
+#include "plotcraft/use_cases/draw/draw_axis.h"
+#include "plotcraft/use_cases/draw/draw_legend.h"
+#include "plotcraft/use_cases/draw/draw_plot2d.h"
+#include "plotcraft/use_cases/draw/i_draw_primitives.h"
+#include "plotcraft/use_cases/draw/i_measure.h"
 
 namespace plotcraft {
-namespace entities {
+namespace use_cases {
 
 template <class TDrawAxis = DrawAxis, class TDrawPlot2d = DrawPlot2d,
           class TDrawLegend = DrawLegend>
 class DrawAxes {
  public:
-  DrawAxes(IDrawPrimitives& draw_primitives, const Rect& content_region, IMeasure& measure)
+  DrawAxes(IDrawPrimitives& draw_primitives, const entities::Rect& content_region,
+           IMeasure& measure)
       : draw_primitives_(draw_primitives), content_region_(content_region), measure_(measure) {}
 
   void Draw(const entities::Axes& axes) {
@@ -31,7 +31,7 @@ class DrawAxes {
     for (auto& axis : axes.axis) {
       double offset = draw_axis.Draw(axis);
       // collect offsets from the various ticks
-      if (axis.orientation == Orientation::kVertical) {
+      if (axis.orientation == entities::Orientation::kVertical) {
         v_offset = std::max(offset, v_offset);
       } else {
         h_offset = std::max(offset, h_offset);
@@ -49,10 +49,10 @@ class DrawAxes {
     DrawTitle(axes.title, axes.title_offset);
 
     // Draw Rectangle
-    draw_primitives_.SetBrush(Color::kTransparent);
-    draw_primitives_.SetPen(Color::kBlack, 1.0);
+    draw_primitives_.SetBrush(entities::Color::kTransparent);
+    draw_primitives_.SetPen(entities::Color::kBlack, 1.0);
     draw_primitives_.DrawRect(content_region_);
-    draw_primitives_.SetFont(Color::kBlack);
+    draw_primitives_.SetFont(entities::Color::kBlack);
 
     if (axes.legend.enable) {
       auto draw_legend = TDrawLegend(draw_primitives_, content_region_, measure_);
@@ -62,7 +62,7 @@ class DrawAxes {
 
  private:
   void DrawVerticalLabel(const std::string& text, double offset) {
-    draw_primitives_.SetFont(Color::kBlack, "bold", 14);
+    draw_primitives_.SetFont(entities::Color::kBlack, "bold", 14);
     double pos_x = content_region_.GetBottomLeft().x;
     double pos_y = content_region_.GetBottomLeft().y + content_region_.GetHeight() * 0.5;
 
@@ -75,7 +75,7 @@ class DrawAxes {
   }
 
   void DrawHorizontalLabel(const std::string& text, double offset) {
-    draw_primitives_.SetFont(Color::kBlack, "bold", 14);
+    draw_primitives_.SetFont(entities::Color::kBlack, "bold", 14);
     double pos_x = content_region_.GetBottomLeft().x + content_region_.GetWidth() * 0.5;
     double pos_y = content_region_.GetBottomLeft().y;
 
@@ -86,7 +86,7 @@ class DrawAxes {
   }
 
   void DrawTitle(const std::string& text, double offset) {
-    draw_primitives_.SetFont(Color::kBlack, "bold", 14);
+    draw_primitives_.SetFont(entities::Color::kBlack, "bold", 14);
     double pos_x = content_region_.GetTopLeft().x + content_region_.GetWidth() * 0.5;
     double pos_y = content_region_.GetTopLeft().y;
 
@@ -97,10 +97,10 @@ class DrawAxes {
 
     draw_primitives_.DrawText(text, pos_x - t_width * 0.5, pos_y + t_descent + t_height + offset);
   }
-  Rect content_region_;
+  entities::Rect content_region_;
   IMeasure& measure_;
   IDrawPrimitives& draw_primitives_;
 };
 
-}  // namespace entities
+}  // namespace use_cases
 }  // namespace plotcraft

@@ -7,12 +7,13 @@
 #include "mock_draw_marker.h"
 #include "mock_draw_primitives.h"
 #include "mock_measure.h"
-#include "plotcraft/entities/draw_legend.h"
+#include "plotcraft/use_cases/draw/draw_legend.h"
 
 using ::testing::_;
 using ::testing::NiceMock;
 
 using namespace plotcraft::entities;
+using namespace plotcraft::use_cases;
 
 TEST(TestDrawLegend, DrawEmptyLegendExpectNoDrawCalls) {
   NiceMock<MockDrawPrimitives> mock_draw_primitives;

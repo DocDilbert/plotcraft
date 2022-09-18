@@ -31,10 +31,10 @@ macro(package_add_test TESTNAME)
 endmacro()
 
 set(TEST_SOURCES
-    plotcraft/entities/test_draw_legend.cpp
-    plotcraft/entities/test_draw_plot2d.cpp
+    plotcraft/use_cases/draw/test_draw_legend.cpp
+    plotcraft/use_cases/draw/test_draw_plot2d.cpp
+    plotcraft/use_cases/draw/test_locators.cpp
     plotcraft/entities/test_transform.cpp
-    plotcraft/entities/test_locators.cpp
 )
 
 package_add_test(ptest ${TEST_SOURCES})

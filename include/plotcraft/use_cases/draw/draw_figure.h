@@ -1,31 +1,30 @@
-
 #pragma once
 
 #include <memory>
 #include <string>
 #include <vector>
 
-#include "plotcraft/entities/draw_axes.h"
 #include "plotcraft/entities/figure.h"
-#include "plotcraft/entities/i_draw_primitives.h"
-#include "plotcraft/entities/i_measure.h"
+#include "plotcraft/use_cases/draw/draw_axes.h"
+#include "plotcraft/use_cases/draw/i_draw_primitives.h"
+#include "plotcraft/use_cases/draw/i_measure.h"
 
 namespace plotcraft {
-namespace entities {
+namespace use_cases {
 
 template <class TDrawAxes = DrawAxes<>>
 class DrawFigure {
  public:
-  DrawFigure(IDrawPrimitives& draw_primitives, const Rect& inner_region, const Rect& content_region,
-             IMeasure& measure)
+  DrawFigure(IDrawPrimitives& draw_primitives, const entities::Rect& inner_region,
+             const entities::Rect& content_region, IMeasure& measure)
       : draw_primitives_(draw_primitives),
         inner_region_(inner_region),
         content_region_(content_region),
         measure_(measure) {}
 
   void Draw(const entities::Figure& figure) {
-    draw_primitives_.SetBrush(Color::kWhite);
-    draw_primitives_.SetPen(Color::kBlack, 1);
+    draw_primitives_.SetBrush(entities::Color::kWhite);
+    draw_primitives_.SetPen(entities::Color::kBlack, 1);
     draw_primitives_.DrawRect(inner_region_.left, inner_region_.bottom, inner_region_.width,
                               inner_region_.height);
 
@@ -37,10 +36,10 @@ class DrawFigure {
 
  private:
   IDrawPrimitives& draw_primitives_;
-  const Rect& inner_region_;
-  const Rect& content_region_;
+  const entities::Rect& inner_region_;
+  const entities::Rect& content_region_;
   IMeasure& measure_;
 };
 
-}  // namespace entities
+}  // namespace use_cases
 }  // namespace plotcraft

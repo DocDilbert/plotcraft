@@ -1,25 +1,30 @@
-- Rename Update*Range in Set*Range
-- Rework Presenters for Set*Properties to give meaningful results.
-    - What was changed...name of property
-    - The value which was updated
-    - presenter returning object ids
-    - ...
-- Add Diamond/Circle marker
-- Add dashed line style
-- Add color class
+- Features
+    - Add Diamond/Circle marker
+    - Add dashed line style
+    - Improve the color class. Setting of arbitary colors should be possible
+    - Add hold on off command
+    - Add show Command with wxPlotCraft as Argument.
+    - Write hybrid app ... console and gui
+    - All examples should return their filenames.
+- Architecture
+    - Add Legend class to data layer
+    - DrawPrimitives should have its own gateway. It shouldn't be part of the DrawPresenter interface.
+    - The state of the Library should be in its own object in the data layer . Active Figure, Active Axis should go there.
+    - Rework Presenters for Set*Properties to give meaningful results.
+        - What was changed...name of property
+        - The value which was updated
+        - presenter returning object ids
+        - ...
 - Refactoring
-    - Move draw* to use cases
-    - Move locators* to use cases
+    - Separate Measure and Draw Primitives implementations in platforms dir.
+    - Plot controller should be named CreatePlotController. Same for PlotPresenter.
+    - Add a null implementation to platforms
+    - Rename wxPlotcraft to wxPlotCraftPanel
+    - Add namespace to platform components 
+    - Rename framework dir to a name which fits better.
+    - Rename Update*Range in Set*Range
+    - Rework logging in plotcraft.cpp
     - Separate includes and source in app_plotcraft
-- Add relational expand inflate to rect. Bugfix when multiple measurements are added
-- Library state . Active Figure . Active Axis etc.
-- Add hold on off command
-- Rename framework dir to a name which fits better.
-- Separate Measure and Draw Primitives implementations in platforms dir.
-- Add a null implementation to platforms
-- Add show Command with wxPlotCraft as Argument.
-- Write hybrid app ... console and gui
-- All examples should return their filenames.
-- Add namespace to platform components 
-- Rework logging in plotcraft.cpp
-- Rename wxPlotcraft to wxPlotCraftPanel
+- Bugfixes
+    - When multiple plots are added the axis have not the required 5% passing. Fix this.
+        - Add relational expand inflate to rect. 

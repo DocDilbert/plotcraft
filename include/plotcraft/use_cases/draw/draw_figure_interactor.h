@@ -1,4 +1,3 @@
-
 #pragma once
 
 #include <iostream>
@@ -7,36 +6,35 @@
 
 #include "plotcraft/entities/axes.h"
 #include "plotcraft/entities/axis.h"
-#include "plotcraft/entities/draw_figure.h"
 #include "plotcraft/entities/figure.h"
-#include "plotcraft/entities/i_draw_primitives.h"
-#include "plotcraft/entities/i_measure.h"
 #include "plotcraft/entities/legend.h"
 #include "plotcraft/entities/margins.h"
 #include "plotcraft/entities/orientation.h"
 #include "plotcraft/entities/plot2d.h"
 #include "plotcraft/entities/rect.h"
+#include "plotcraft/use_cases/draw/draw_figure.h"
 #include "plotcraft/use_cases/draw/i_draw_figure_data_access.h"
 #include "plotcraft/use_cases/draw/i_draw_figure_input.h"
 #include "plotcraft/use_cases/draw/i_draw_figure_output.h"
-#include "plotcraft/use_cases/i_measure.h"
+#include "plotcraft/use_cases/draw/i_draw_primitives.h"
+#include "plotcraft/use_cases/draw/i_measure.h"
 
 namespace plotcraft {
 namespace use_cases {
 
 class DrawFigureInteractor : public IDrawFigureInput {
-  class MeasureAdapter : public entities::IMeasure {
+  class MeasureAdapter : public IMeasure {
    public:
     MeasureAdapter(use_cases::IMeasure& uc_measure) : uc_measure_(uc_measure) {}
 
-    virtual entities::TextExtent GetTextExtent(const std::string& text,
-                                               const std::string& font_name, double size) {
+    virtual TextExtent GetTextExtent(const std::string& text, const std::string& font_name,
+                                     double size) {
       auto uc_text_extent = uc_measure_.GetTextExtent(text, font_name, size);
 
-      entities::TextExtent text_extent{.width = uc_text_extent.width,
-                                       .height = uc_text_extent.height,
-                                       .descent = uc_text_extent.descent,
-                                       .externalLeading = uc_text_extent.externalLeading};
+      TextExtent text_extent{.width = uc_text_extent.width,
+                             .height = uc_text_extent.height,
+                             .descent = uc_text_extent.descent,
+                             .externalLeading = uc_text_extent.externalLeading};
       return text_extent;
     }
 
@@ -44,7 +42,7 @@ class DrawFigureInteractor : public IDrawFigureInput {
     use_cases::IMeasure& uc_measure_;
   };
 
-  class DrawPrimitivesAdapter : public entities::IDrawPrimitives {
+  class DrawPrimitivesAdapter : public IDrawPrimitives {
    public:
     DrawPrimitivesAdapter(IDrawFigureOutput& draw_figure_output)
         : draw_figure_output_(draw_figure_output) {}
@@ -208,8 +206,8 @@ class DrawFigureInteractor : public IDrawFigureInput {
     auto measure_adapter = MeasureAdapter(measure_);
     auto draw_primitives_adapter = DrawPrimitivesAdapter(output_);
 
-    auto draw_figure = entities::DrawFigure<>(draw_primitives_adapter, inner_region, content_region,
-                                              measure_adapter);
+    auto draw_figure =
+        DrawFigure<>(draw_primitives_adapter, inner_region, content_region, measure_adapter);
     draw_figure.Draw(e_figure);
 
     output_.IsDrawn(response);

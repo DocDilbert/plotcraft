@@ -3,7 +3,7 @@
 #include <string>
 
 namespace plotcraft {
-namespace entities {
+namespace use_cases {
 
 struct TextExtent {
   double width;
@@ -18,5 +18,5 @@ class IMeasure {
                                    double size) = 0;
 };
 
-}  // namespace entities
+}  // namespace use_cases
 }  // namespace plotcraft

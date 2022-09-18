@@ -6,6 +6,9 @@
 #include "plotcraft/entities/line.h"
 #include "plotcraft/entities/rect.h"
 
+namespace plotcraft {
+namespace use_cases {
+
 // Defining region codes
 const int INSIDE = 0;  // 0000
 const int LEFT = 1;    // 0001
@@ -36,7 +39,8 @@ inline int computeCode(const plotcraft::entities::Rect& rect, double x, double y
 
 // Implementing Cohen-Sutherland algorithm
 // Clipping a line from P1 = (x1, y1) to P2 = (x2, y2)
-inline void cohenSutherlandClip(const plotcraft::entities::Rect& rect, const plotcraft::entities::Line& line,
+inline void cohenSutherlandClip(const plotcraft::entities::Rect& rect,
+                                const plotcraft::entities::Line& line,
                                 std::function<void(const plotcraft::entities::Line&)> fun) {
   const double& x_min = rect.GetLeft();
   const double& x_max = rect.GetRight();
@@ -118,3 +122,6 @@ inline void cohenSutherlandClip(const plotcraft::entities::Rect& rect, const plo
     // rejected
   }
 }
+
+}  // namespace use_cases
+}  // namespace plotcraft

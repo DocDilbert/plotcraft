@@ -2,11 +2,12 @@
 #include <gtest/gtest.h>
 
 #include "gmock/gmock.h"
-#include "plotcraft/entities/locators.h"
+#include "plotcraft/use_cases/draw/locators.h"
+
 using ::testing::DoubleEq;
 using ::testing::ElementsAre;
 
-using namespace plotcraft::entities;
+using namespace plotcraft::use_cases;
 
 TEST(TestMaxNLocator, TestGetTickValuesInterval0To05VectorWith6Elements) {
   MaxNLocator max_n_loc(9);

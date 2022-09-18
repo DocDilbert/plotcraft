@@ -5,7 +5,7 @@
 #include <vector>
 
 namespace plotcraft {
-namespace entities {
+namespace use_cases {
 
 class Locators {
  public:
@@ -65,5 +65,5 @@ class MaxNLocator {
   unsigned max_n_;
   unsigned min_n_ = {4};
 };
-}  // namespace entities
+}  // namespace use_cases
 }  // namespace plotcraft

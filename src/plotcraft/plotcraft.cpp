@@ -31,7 +31,6 @@
 #include "plotcraft/presenter/set_axes_properties_presenter.h"
 #include "plotcraft/presenter/set_figure_properties_presenter.h"
 #include "plotcraft/use_cases/draw/draw_figure_interactor.h"
-#include "plotcraft/use_cases/i_measure.h"
 #include "plotcraft/use_cases/model/create_fig_and_axes_interactor.h"
 #include "plotcraft/use_cases/model/create_plot_interactor.h"
 #include "plotcraft/use_cases/model/set_axes_properties_interactor.h"

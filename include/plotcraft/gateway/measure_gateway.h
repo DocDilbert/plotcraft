@@ -7,7 +7,7 @@
 #include "plotcraft/data/figure.h"
 #include "plotcraft/data/repository.h"
 #include "plotcraft/gateway/i_measure.h"
-#include "plotcraft/use_cases/i_measure.h"
+#include "plotcraft/use_cases/draw/i_measure.h"
 
 namespace plotcraft {
 namespace gateway {

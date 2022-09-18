@@ -8,20 +8,20 @@
 #include <string>
 
 #include "plotcraft/entities/axis.h"
-#include "plotcraft/entities/i_draw_primitives.h"
-#include "plotcraft/entities/i_measure.h"
-#include "plotcraft/entities/locators.h"
 #include "plotcraft/entities/orientation.h"
 #include "plotcraft/entities/point.h"
 #include "plotcraft/entities/transform.h"
+#include "plotcraft/use_cases/draw/i_draw_primitives.h"
+#include "plotcraft/use_cases/draw/i_measure.h"
+#include "plotcraft/use_cases/draw/locators.h"
 
 namespace plotcraft {
-namespace entities {
+namespace use_cases {
 
 class DrawAxis {
  public:
-  DrawAxis(IDrawPrimitives& draw_primitives, const Rect& content_region, const Rect& viewport,
-           IMeasure& measure)
+  DrawAxis(IDrawPrimitives& draw_primitives, const entities::Rect& content_region,
+           const entities::Rect& viewport, IMeasure& measure)
 
       : draw_primitives_(draw_primitives),
         measure_(measure),
@@ -32,15 +32,15 @@ class DrawAxis {
     top_left_ = content_region.GetTopLeft();
   }
 
-  double Draw(const Axis& axis) {
-    const auto trafo = Transform::FromRectToRect(content_region_, viewport_);
+  double Draw(const entities::Axis& axis) {
+    const auto trafo = entities::Transform::FromRectToRect(content_region_, viewport_);
 
     double vmin = 0.0f;
     double vmax = 0.0f;
-    if (axis.orientation == Orientation::kVertical) {
+    if (axis.orientation == entities::Orientation::kVertical) {
       vmin = viewport_.bottom;
       vmax = viewport_.bottom + viewport_.height;
-    } else if (axis.orientation == Orientation::kHorizontal) {
+    } else if (axis.orientation == entities::Orientation::kHorizontal) {
       vmin = viewport_.left;
       vmax = viewport_.left + viewport_.width;
     }
@@ -55,15 +55,15 @@ class DrawAxis {
     double offset = 0.0;
     const double& tick_text_offset = axis.tick_text_offset;
 
-    draw_primitives_.SetFont(Color::kBlack, "default", 12);
-    if (axis.orientation == Orientation::kHorizontal) {
+    draw_primitives_.SetFont(entities::Color::kBlack, "default", 12);
+    if (axis.orientation == entities::Orientation::kHorizontal) {
       for (auto tick : ticks) {
         auto tick_pos = trafo.ForwardX(tick);
 
-        auto tick_p0 = Point(tick_pos, bottom_left_.y);
-        auto tick_p1 = Point(tick_pos, bottom_left_.y - axis.major_tick_len);
+        auto tick_p0 = entities::Point(tick_pos, bottom_left_.y);
+        auto tick_p1 = entities::Point(tick_pos, bottom_left_.y - axis.major_tick_len);
 
-        auto l = Line(tick_p0, tick_p1);
+        auto l = entities::Line(tick_p0, tick_p1);
         draw_primitives_.DrawLine(l);
 
         auto tick_text = ToString(tick);
@@ -81,9 +81,9 @@ class DrawAxis {
     } else {
       for (auto tick : ticks) {
         auto tick_pos = trafo.ForwardY(tick);
-        auto tick_p0 = Point(bottom_left_.x, tick_pos);
-        auto tick_p1 = Point(bottom_left_.x - axis.major_tick_len, tick_pos);
-        auto l = Line(tick_p0, tick_p1);
+        auto tick_p0 = entities::Point(bottom_left_.x, tick_pos);
+        auto tick_p1 = entities::Point(bottom_left_.x - axis.major_tick_len, tick_pos);
+        auto l = entities::Line(tick_p0, tick_p1);
         draw_primitives_.DrawLine(l);
 
         auto tick_text = ToString(tick);
@@ -104,7 +104,7 @@ class DrawAxis {
  private:
   std::string ToString(const double& val) {
     std::ostringstream ss;
-    // Set Fixed -Point Notation
+    // Set Fixed -entities::Point Notation
     ss << std::fixed;
     ss << std::setprecision(2);
     //. double to stream
@@ -115,14 +115,14 @@ class DrawAxis {
   IDrawPrimitives& draw_primitives_;
 
   // Start/stop coordinates in system space
-  Point bottom_left_;
-  Point bottom_right_;
-  Point top_left_;
+  entities::Point bottom_left_;
+  entities::Point bottom_right_;
+  entities::Point top_left_;
 
   IMeasure& measure_;
-  const Rect& content_region_;
-  const Rect& viewport_;
+  const entities::Rect& content_region_;
+  const entities::Rect& viewport_;
 };
 
-}  // namespace entities
+}  // namespace use_cases
 }  // namespace plotcraft

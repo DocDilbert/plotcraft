@@ -6,24 +6,25 @@
 #include <string>
 
 #include "plotcraft/entities/axis.h"
-#include "plotcraft/entities/draw_marker.h"
-#include "plotcraft/entities/i_draw_primitives.h"
-#include "plotcraft/entities/i_measure.h"
 #include "plotcraft/entities/legend.h"
 #include "plotcraft/entities/line.h"
 #include "plotcraft/entities/rect.h"
+#include "plotcraft/use_cases/draw/draw_marker.h"
+#include "plotcraft/use_cases/draw/i_draw_primitives.h"
+#include "plotcraft/use_cases/draw/i_measure.h"
 
 namespace plotcraft {
-namespace entities {
+namespace use_cases {
 
 class DrawLegend {
  public:
-  DrawLegend(IDrawPrimitives& draw_primitives, const Rect& content_region, IMeasure& measure)
+  DrawLegend(IDrawPrimitives& draw_primitives, const entities::Rect& content_region,
+             IMeasure& measure)
 
       : draw_primitives_(draw_primitives), measure_(measure), content_region_(content_region) {}
 
   template <class TDrawMarker>
-  void Draw(const Legend& legend, TDrawMarker& draw_marker) {
+  void Draw(const entities::Legend& legend, TDrawMarker& draw_marker) {
     // only consider legend entries which are valid
     auto entries = FilterLegendEntries(legend.entries);
 
@@ -61,11 +62,11 @@ class DrawLegend {
     auto p0_x = top_right.x - box_width - box_x_offset;
     auto p0_y = top_right.y - box_height - box_y_offset;
 
-    auto legend_box = Rect(p0_x, p0_y, box_width, box_height);
+    auto legend_box = entities::Rect(p0_x, p0_y, box_width, box_height);
 
-    draw_primitives_.SetBrush(Color::kWhite);
+    draw_primitives_.SetBrush(entities::Color::kWhite);
     draw_primitives_.DrawRect(legend_box);
-    draw_primitives_.SetBrush(Color::kTransparent);
+    draw_primitives_.SetBrush(entities::Color::kTransparent);
 
     // -----------------
     // Draw Lines
@@ -77,10 +78,10 @@ class DrawLegend {
       draw_primitives_.SetPen(it.color, 1.0);
       auto text_extent = measure_.GetTextExtent(it.label, "default", 12);
 
-      auto p0 = Point(line_x, line_y - text_extent.height * 0.5);
-      auto p1 = Point(line_x + line_len, line_y - text_extent.height * 0.5);
-      auto l = Line(p0, p1);
-      auto p_marker = Point(line_x + line_len * 0.5, line_y - text_extent.height * 0.5);
+      auto p0 = entities::Point(line_x, line_y - text_extent.height * 0.5);
+      auto p1 = entities::Point(line_x + line_len, line_y - text_extent.height * 0.5);
+      auto l = entities::Line(p0, p1);
+      auto p_marker = entities::Point(line_x + line_len * 0.5, line_y - text_extent.height * 0.5);
 
       draw_primitives_.DrawLine(l);
       draw_marker.Draw(p_marker, it.marker_style, it.marker_size);
@@ -92,7 +93,7 @@ class DrawLegend {
     auto text_x = p0_x + box_padding + signifier_padding;
     auto text_y = p0_y + box_height - box_padding;
 
-    draw_primitives_.SetFont(Color::kBlack, "default", 12);
+    draw_primitives_.SetFont(entities::Color::kBlack, "default", 12);
     for (auto& it : entries) {
       auto text_extent = measure_.GetTextExtent(it.label, "default", 12);
       draw_primitives_.DrawText(it.label, text_x, text_y);
@@ -100,14 +101,15 @@ class DrawLegend {
     }
   }
 
-  void Draw(const Legend& legend) {
+  void Draw(const entities::Legend& legend) {
     auto draw_marker = DrawMarker(draw_primitives_);
     Draw<DrawMarker>(legend, draw_marker);
   }
 
  private:
-  std::vector<LegendEntry> FilterLegendEntries(const std::vector<LegendEntry>& legend_entries) {
-    std::vector<LegendEntry> ret;
+  std::vector<entities::LegendEntry> FilterLegendEntries(
+      const std::vector<entities::LegendEntry>& legend_entries) {
+    std::vector<entities::LegendEntry> ret;
     for (auto& it : legend_entries) {
       // do not add entries with empty label to the legend
       if (it.label != "") {
@@ -118,8 +120,8 @@ class DrawLegend {
   }
   IDrawPrimitives& draw_primitives_;
   IMeasure& measure_;
-  const Rect& content_region_;
+  const entities::Rect& content_region_;
 };
 
-}  // namespace entities
+}  // namespace use_cases
 }  // namespace plotcraft

@@ -3,9 +3,9 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
-#include "plotcraft/entities/i_draw_primitives.h"
+#include "plotcraft/use_cases/draw/i_draw_primitives.h"
 
-class MockDrawPrimitives : public plotcraft::entities::IDrawPrimitives {
+class MockDrawPrimitives : public plotcraft::use_cases::IDrawPrimitives {
  public:
   MOCK_METHOD(void, SetPen, (plotcraft::entities::Color color, double width), (override));
   MOCK_METHOD(void, SetBrush, (plotcraft::entities::Color color), (override));
