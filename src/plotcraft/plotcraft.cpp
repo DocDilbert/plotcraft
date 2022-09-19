@@ -21,7 +21,6 @@
 #include "plotcraft/data/repository.h"
 #include "plotcraft/data/set_axes_properties_data_adapter.h"
 #include "plotcraft/data/set_figure_properties_data_adapter.h"
-#include "plotcraft/framework/id_generator.h"
 #include "plotcraft/gateway/measure_gateway.h"
 #include "plotcraft/platforms/wxwidgets/wx_draw_context.h"
 #include "plotcraft/presenter/create_fig_and_axis_presenter.h"
@@ -30,6 +29,7 @@
 #include "plotcraft/presenter/i_draw_primitives.h"
 #include "plotcraft/presenter/set_axes_properties_presenter.h"
 #include "plotcraft/presenter/set_figure_properties_presenter.h"
+#include "plotcraft/services/id_generator.h"
 #include "plotcraft/use_cases/draw/draw_figure_interactor.h"
 #include "plotcraft/use_cases/model/create_fig_and_axes_interactor.h"
 #include "plotcraft/use_cases/model/create_plot_interactor.h"
@@ -40,7 +40,7 @@ namespace plotcraft {
 
 struct PlotCraft::PlotCraftImpl {
   plotcraft::data::Repository repo;
-  plotcraft::db::IdGenerator id_generator;
+  plotcraft::services::IdGenerator id_generator;
 };
 
 PlotCraft::PlotCraft() : pimpl_(std::make_unique<PlotCraft::PlotCraftImpl>()) {}

@@ -8,7 +8,7 @@
 #include "plotcraft/use_cases/i_id_generator.h"
 
 namespace plotcraft {
-namespace db {
+namespace services {
 
 class IdGenerator : public use_cases::IIdGenerator {
  public:
@@ -24,5 +24,5 @@ class IdGenerator : public use_cases::IIdGenerator {
   int cnt_ = {0};
 };
 
-}  // namespace db
+}  // namespace services
 }  // namespace plotcraft
