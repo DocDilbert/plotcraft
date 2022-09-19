@@ -5,6 +5,10 @@
 #include "plotcraft/platforms/wxwidgets/wx_draw_primitives.h"
 #include "plotcraft/plotcraft.h"
 
+namespace plotcraft {
+namespace platform {
+namespace wxwidgets {
+
 BEGIN_EVENT_TABLE(wxPlotCraftPanel, wxPanel)
 // some useful events
 /*
@@ -133,3 +137,6 @@ void wxPlotCraftPanel::LogGraphicsContextOptions(wxGraphicsContext& gc) {
       aamode, ipoqual, compmode, dpix, dpiy, scale_factor, content_scale_factor);
 }
 
+}  // namespace wxwidgets
+}  // namespace platform
+}  // namespace plotcraft

@@ -11,6 +11,9 @@
 /// \brief namespace of plotcraft library
 namespace plotcraft {
 
+// wxWidgets convenience type
+using wxPlotCraftPanel = platform::wxwidgets::wxPlotCraftPanel;
+
 class PlotCraft {
  private:
   typedef std::map<std::string, std::string> Options;

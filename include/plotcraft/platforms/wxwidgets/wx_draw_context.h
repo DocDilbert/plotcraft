@@ -9,6 +9,9 @@
 
 #include "plotcraft/platforms/wxwidgets/wx_draw_primitives.h"
 
+namespace plotcraft {
+namespace platform {
+namespace wxwidgets {
 class wxDrawContext {
  public:
   bool Prepare(int width, int height) {
@@ -55,3 +58,7 @@ class wxDrawContext {
   std::unique_ptr<wxDrawPrimitives> dp_;
   std::unique_ptr<wxMemoryDC> memory_dc_;
 };
+
+}  // namespace wxwidgets
+}  // namespace platform
+}  // namespace plotcraft

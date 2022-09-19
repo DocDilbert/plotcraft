@@ -8,8 +8,10 @@
 #include <memory>
 
 namespace plotcraft {
+
 class PlotCraft;
-}
+namespace platform {
+namespace wxwidgets {
 
 class wxPlotCraftPanel : public wxPanel {
  public:
@@ -43,3 +45,6 @@ class wxPlotCraftPanel : public wxPanel {
   plotcraft::PlotCraft& plot_craft_;
 };
 
+}  // namespace wxwidgets
+}  // namespace platform
+}  // namespace plotcraft

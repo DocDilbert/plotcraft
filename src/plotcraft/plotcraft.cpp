@@ -11,8 +11,8 @@
 #include <spdlog/spdlog.h>
 
 #include "plotcraft/controller/create_fig_and_axes_controller.h"
-#include "plotcraft/controller/draw_controller.h"
 #include "plotcraft/controller/create_plot_controller.h"
+#include "plotcraft/controller/draw_controller.h"
 #include "plotcraft/controller/set_axes_properties_controller.h"
 #include "plotcraft/controller/set_figure_properties_controller.h"
 #include "plotcraft/data/create_fig_and_axes_data_adapter.h"
@@ -25,9 +25,9 @@
 #include "plotcraft/gateway/measure_gateway.h"
 #include "plotcraft/platforms/wxwidgets/wx_draw_context.h"
 #include "plotcraft/presenter/create_fig_and_axis_presenter.h"
+#include "plotcraft/presenter/create_plot_presenter.h"
 #include "plotcraft/presenter/draw_presenter.h"
 #include "plotcraft/presenter/i_draw_primitives.h"
-#include "plotcraft/presenter/create_plot_presenter.h"
 #include "plotcraft/presenter/set_axes_properties_presenter.h"
 #include "plotcraft/presenter/set_figure_properties_presenter.h"
 #include "plotcraft/use_cases/draw/draw_figure_interactor.h"
@@ -237,7 +237,7 @@ void PlotCraft::SaveFig(const std::string& filename) {
   const auto bottom = 0;
   const auto width = 800;
   const auto height = 600;
-  wxDrawContext context;
+  platform::wxwidgets::wxDrawContext context;
 
   if (context.Prepare(width, height)) {
     auto& dp = context.GetDrawPrimitives();

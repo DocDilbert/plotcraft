@@ -9,6 +9,10 @@
 #include "plotcraft/gateway/i_measure.h"
 #include "plotcraft/presenter/i_draw_primitives.h"
 
+namespace plotcraft {
+namespace platform {
+namespace wxwidgets {
+
 class wxDrawPrimitives : public plotcraft::presenter::IDrawPrimitives,
                          public plotcraft::gateway::IMeasure {
  public:
@@ -165,3 +169,6 @@ class wxDrawPrimitives : public plotcraft::presenter::IDrawPrimitives,
   wxGraphicsContext& gc_;
 };
 
+}  // namespace wxwidgets
+}  // namespace platform
+}  // namespace plotcraft

@@ -22,7 +22,7 @@ MyFrame::MyFrame(const wxString& title, IExampleFactory& example_factory)
   sizer_->Add(listbox_, 10, wxEXPAND);
 
   active_example_ = example_factory_.Create(0);
-  drawpane_ = new wxPlotCraftPanel((wxFrame*)this, active_example_->GetPlotcraftRef());
+  drawpane_ = new plotcraft::wxPlotCraftPanel((wxFrame*)this, active_example_->GetPlotcraftRef());
   sizer_->Add(drawpane_, 40, wxEXPAND);
 
   SetSizer(sizer_);
@@ -35,7 +35,8 @@ void MyFrame::OnSelect(wxCommandEvent& event) {
     spdlog::debug("OnSelect {}", sel);
 
     active_example_ = example_factory_.Create(sel);
-    auto* drawpane_new = new wxPlotCraftPanel((wxFrame*)this, active_example_->GetPlotcraftRef());
+    auto* drawpane_new =
+        new plotcraft::wxPlotCraftPanel((wxFrame*)this, active_example_->GetPlotcraftRef());
 
     sizer_->Replace(drawpane_, drawpane_new);
     drawpane_->Destroy();

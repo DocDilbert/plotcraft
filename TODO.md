@@ -19,7 +19,6 @@
     - Separate Measure and Draw Primitives implementations in platforms dir.
     - Add logging to wxDrawContext
     - Add a null implementation to platforms
-    - Add namespace to platform components 
     - Rename framework dir to a name which fits better.
     - Rename Update*Range in Set*Range
     - Rework logging in plotcraft.cpp
