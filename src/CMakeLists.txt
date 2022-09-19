@@ -1,7 +1,7 @@
 # Create the library 
 set (PLOTCRAFT_SOURCES 
   plotcraft/plotcraft.cpp
-  plotcraft/platforms/wxwidgets/wx_plotcraft.cpp
+  plotcraft/platforms/wxwidgets/wx_plotcraft_panel.cpp
 )
 
 add_library(plotcraft ${PLOTCRAFT_SOURCES})

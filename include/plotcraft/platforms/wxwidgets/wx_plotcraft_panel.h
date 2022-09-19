@@ -11,10 +11,10 @@ namespace plotcraft {
 class PlotCraft;
 }
 
-class wxPlotcraft : public wxPanel {
+class wxPlotCraftPanel : public wxPanel {
  public:
-  wxPlotcraft(wxFrame* parent, plotcraft::PlotCraft& plot_craft);
-  virtual ~wxPlotcraft();
+  wxPlotCraftPanel(wxFrame* parent, plotcraft::PlotCraft& plot_craft);
+  virtual ~wxPlotCraftPanel();
 
   void paintEvent(wxPaintEvent& evt);
   void paintEventMemoryDc();

@@ -18,7 +18,7 @@ class MyFrame : public wxFrame {
  private:
   void OnSelect(wxCommandEvent& event);
 
-  wxPlotcraft* drawpane_;
+  wxPlotCraftPanel* drawpane_;
   wxListBox* listbox_;
   wxBoxSizer* sizer_;
   wxPanel* content_panel_;

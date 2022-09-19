@@ -1,49 +1,49 @@
-#include "plotcraft/platforms/wxwidgets/wx_plotcraft.h"
+#include "plotcraft/platforms/wxwidgets/wx_plotcraft_panel.h"
 
 #include <spdlog/spdlog.h>
 
 #include "plotcraft/platforms/wxwidgets/wx_draw_primitives.h"
 #include "plotcraft/plotcraft.h"
 
-BEGIN_EVENT_TABLE(wxPlotcraft, wxPanel)
+BEGIN_EVENT_TABLE(wxPlotCraftPanel, wxPanel)
 // some useful events
 /*
- EVT_MOTION(wxPlotcraft::mouseMoved)
- EVT_LEFT_DOWN(wxPlotcraft::mouseDown)
- EVT_LEFT_UP(wxPlotcraft::mouseReleased)
- EVT_RIGHT_DOWN(wxPlotcraft::rightClick)
- EVT_LEAVE_WINDOW(wxPlotcraft::mouseLeftWindow)
- EVT_KEY_DOWN(wxPlotcraft::keyPressed)
- EVT_KEY_UP(wxPlotcraft::keyReleased)
- EVT_MOUSEWHEEL(wxPlotcraft::mouseWheelMoved)
+ EVT_MOTION(wxPlotCraftPanel::mouseMoved)
+ EVT_LEFT_DOWN(wxPlotCraftPanel::mouseDown)
+ EVT_LEFT_UP(wxPlotCraftPanel::mouseReleased)
+ EVT_RIGHT_DOWN(wxPlotCraftPanel::rightClick)
+ EVT_LEAVE_WINDOW(wxPlotCraftPanel::mouseLeftWindow)
+ EVT_KEY_DOWN(wxPlotCraftPanel::keyPressed)
+ EVT_KEY_UP(wxPlotCraftPanel::keyReleased)
+ EVT_MOUSEWHEEL(wxPlotCraftPanel::mouseWheelMoved)
  */
 
 // catch paint events
-EVT_PAINT(wxPlotcraft::paintEvent)
+EVT_PAINT(wxPlotCraftPanel::paintEvent)
 
 END_EVENT_TABLE()
 
-struct wxPlotcraft::wxPlotCraftImpl {};
+struct wxPlotCraftPanel::wxPlotCraftImpl {};
 // some useful events
 /*
- void wxPlotcraft::mouseMoved(wxMouseEvent& event) {}
- void wxPlotcraft::mouseDown(wxMouseEvent& event) {}
- void wxPlotcraft::mouseWheelMoved(wxMouseEvent& event) {}
- void wxPlotcraft::mouseReleased(wxMouseEvent& event) {}
- Jvoid wxPlotcraft::rightClick(wxMouseEvent& event) {}
- void wxPlotcraft::mouseLeftWindow(wxMouseEvent& event) {}
- void wxPlotcraft::keyPressed(wxKeyEvent& event) {}
- void wxPlotcraft::keyReleased(wxKeyEvent& event) {}
+ void wxPlotCraftPanel::mouseMoved(wxMouseEvent& event) {}
+ void wxPlotCraftPanel::mouseDown(wxMouseEvent& event) {}
+ void wxPlotCraftPanel::mouseWheelMoved(wxMouseEvent& event) {}
+ void wxPlotCraftPanel::mouseReleased(wxMouseEvent& event) {}
+ Jvoid wxPlotCraftPanel::rightClick(wxMouseEvent& event) {}
+ void wxPlotCraftPanel::mouseLeftWindow(wxMouseEvent& event) {}
+ void wxPlotCraftPanel::keyPressed(wxKeyEvent& event) {}
+ void wxPlotCraftPanel::keyReleased(wxKeyEvent& event) {}
  */
 
-wxPlotcraft::wxPlotcraft(wxFrame* parent, plotcraft::PlotCraft& plot_craft)
+wxPlotCraftPanel::wxPlotCraftPanel(wxFrame* parent, plotcraft::PlotCraft& plot_craft)
     : wxPanel(parent),
-      pimpl_(std::make_unique<wxPlotcraft::wxPlotCraftImpl>()),
+      pimpl_(std::make_unique<wxPlotCraftPanel::wxPlotCraftImpl>()),
       plot_craft_(plot_craft) {}
 
-wxPlotcraft::~wxPlotcraft() { spdlog::trace("wxPlotcraft: Destructor called"); }
+wxPlotCraftPanel::~wxPlotCraftPanel() { spdlog::trace("wxPlotCraftPanel: Destructor called"); }
 
-void wxPlotcraft::paintEvent(wxPaintEvent& evt) {
+void wxPlotCraftPanel::paintEvent(wxPaintEvent& evt) {
   bool mem_dc = false;
   if (mem_dc) {
     paintEventMemoryDc();
@@ -52,7 +52,7 @@ void wxPlotcraft::paintEvent(wxPaintEvent& evt) {
   }
 }
 
-void wxPlotcraft::paintEventMemoryDc() {
+void wxPlotCraftPanel::paintEventMemoryDc() {
   wxPaintDC dc(this);
 
   auto content_scale_factor = GetContentScaleFactor();
@@ -84,7 +84,7 @@ void wxPlotcraft::paintEventMemoryDc() {
   dc.DrawBitmap(bitmap, 0, 0);
 }
 
-void wxPlotcraft::paintEventDc() {
+void wxPlotCraftPanel::paintEventDc() {
   wxPaintDC dc(this);
 
   // Create graphics context from it
@@ -105,7 +105,7 @@ void wxPlotcraft::paintEventDc() {
   }
 }
 
-void wxPlotcraft::LogBitmapOptions(wxBitmap& bitmap) {
+void wxPlotCraftPanel::LogBitmapOptions(wxBitmap& bitmap) {
   auto size = bitmap.GetSize();
   auto scale_factor = bitmap.GetScaleFactor();
   spdlog::debug(
@@ -116,7 +116,7 @@ void wxPlotcraft::LogBitmapOptions(wxBitmap& bitmap) {
       size.x, size.y, scale_factor, bitmap.HasAlpha());
 }
 
-void wxPlotcraft::LogGraphicsContextOptions(wxGraphicsContext& gc) {
+void wxPlotCraftPanel::LogGraphicsContextOptions(wxGraphicsContext& gc) {
   auto aamode = gc.GetAntialiasMode();
   auto ipoqual = gc.GetInterpolationQuality();
   auto compmode = gc.GetCompositionMode();
