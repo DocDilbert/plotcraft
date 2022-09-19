@@ -18,7 +18,6 @@
 - Refactoring
     - Separate Measure and Draw Primitives implementations in platforms dir.
     - Add logging to wxDrawContext
-    - Plot controller should be named CreatePlotController. Same for PlotPresenter.
     - Add a null implementation to platforms
     - Rename wxPlotcraft to wxPlotCraftPanel
     - Add namespace to platform components 

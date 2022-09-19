@@ -12,7 +12,7 @@
 
 #include "plotcraft/controller/create_fig_and_axes_controller.h"
 #include "plotcraft/controller/draw_controller.h"
-#include "plotcraft/controller/plot_controller.h"
+#include "plotcraft/controller/create_plot_controller.h"
 #include "plotcraft/controller/set_axes_properties_controller.h"
 #include "plotcraft/controller/set_figure_properties_controller.h"
 #include "plotcraft/data/create_fig_and_axes_data_adapter.h"
@@ -27,7 +27,7 @@
 #include "plotcraft/presenter/create_fig_and_axis_presenter.h"
 #include "plotcraft/presenter/draw_presenter.h"
 #include "plotcraft/presenter/i_draw_primitives.h"
-#include "plotcraft/presenter/plot_presenter.h"
+#include "plotcraft/presenter/create_plot_presenter.h"
 #include "plotcraft/presenter/set_axes_properties_presenter.h"
 #include "plotcraft/presenter/set_figure_properties_presenter.h"
 #include "plotcraft/use_cases/draw/draw_figure_interactor.h"
@@ -70,12 +70,12 @@ void PlotCraft::Figure() {
 void PlotCraft::Plot(const std::vector<double>& x, const std::vector<double>& y,
                      const std::map<std::string, std::string> options) {
   plotcraft::data::CreatePlotDataAdapter create_plot_data_adapter(pimpl_->repo);
-  plotcraft::presenter::PlotPresenter plot_presenter;
+  plotcraft::presenter::CreatePlotPresenter plot_presenter;
 
   plotcraft::use_cases::CreatePlotInteractor plot_interactor(
       plot_presenter, create_plot_data_adapter, pimpl_->id_generator);
 
-  plotcraft::controller::PlotController plot_controller(plot_interactor);
+  plotcraft::controller::CreatePlotController plot_controller(plot_interactor);
 
   plot_controller.Plot(axes_id_, x, y, options);
 

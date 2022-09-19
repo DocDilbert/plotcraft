@@ -9,9 +9,9 @@
 namespace plotcraft {
 namespace controller {
 
-class PlotController {
+class CreatePlotController {
  public:
-  PlotController(use_cases::ICreatePlotInput& output) : output_(output) {}
+  CreatePlotController(use_cases::ICreatePlotInput& output) : output_(output) {}
 
   void Plot(const std::string& axes_id, const std::vector<double>& x, const std::vector<double>& y,
             const std::map<std::string, std::string> options) {

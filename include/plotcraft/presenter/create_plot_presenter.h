@@ -8,9 +8,9 @@
 namespace plotcraft {
 namespace presenter {
 
-class PlotPresenter : public use_cases::ICreatePlotOutput {
+class CreatePlotPresenter : public use_cases::ICreatePlotOutput {
  public:
-  PlotPresenter() {}
+  CreatePlotPresenter() {}
 
   void IsPlotCreated(const use_cases::CreatePlotResponse& response) override {
     is_created_ = true;
