@@ -31,7 +31,7 @@ class SetFigurePropertiesInteractor : public ISetFigurePropertiesInput {
                                 ISetFigurePropertiesDataAccess& update_axes_viewport_repo_access)
       : output_(output), data_access_(update_axes_viewport_repo_access) {}
 
-  void Update(SetFigurePropertiesRequest request) override {
+  void SetProperties(SetFigurePropertiesRequest request) override {
     auto data = json::parse(request.command);
     throw std::exception();
     SetFigurePropertiesResponse response;

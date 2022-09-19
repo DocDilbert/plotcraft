@@ -34,7 +34,7 @@ class CreatePlotDataAdapter : public use_cases::ICreatePlotDataAccess {
     };
   }
 
-  void UpdateViewPort(const std::string& axes_id, const ViewPortData& viewport) override {
+  void SetViewPort(const std::string& axes_id, const ViewPortData& viewport) override {
     auto axes = repo_.GetAxes(axes_id);
     axes.viewport_left = viewport.left;
     axes.viewport_bottom = viewport.bottom;

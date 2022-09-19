@@ -59,7 +59,7 @@ class CreatePlotInteractor : public ICreatePlotInput {
       viewport.width = max_x - min_x;
       viewport.bottom = min_y;
       viewport.height = max_y - min_y;
-      data_access_.UpdateViewPort(request.axes_id, viewport);
+      data_access_.SetViewPort(request.axes_id, viewport);
     }
 
     ICreatePlotDataAccess::PlotData plot_data = {.plot_id = plot_id,

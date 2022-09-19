@@ -119,10 +119,10 @@ void PlotCraft::Xlim(double left, double right) {
   plotcraft::controller::SetAxesPropertiesController set_axes_properties_controller(
       set_axes_properties_interactor);
 
-  set_axes_properties_controller.UpdateXRange(axes_id_, left, right);
+  set_axes_properties_controller.SetXRange(axes_id_, left, right);
 
   if (set_axes_properties_presenter.IsCreated()) {
-    spdlog::info("UpdateXRange returned successfully");
+    spdlog::info("SetXRange returned successfully");
   }
 }
 
@@ -136,10 +136,10 @@ void PlotCraft::Ylim(double bottom, double top) {
   plotcraft::controller::SetAxesPropertiesController set_axes_properties_controller(
       set_axes_properties_interactor);
 
-  set_axes_properties_controller.UpdateYRange(axes_id_, bottom, top);
+  set_axes_properties_controller.SetYRange(axes_id_, bottom, top);
 
   if (set_axes_properties_presenter.IsCreated()) {
-    spdlog::info("UpdateYRange returned successfully");
+    spdlog::info("SetYRange returned successfully");
   }
 }
 

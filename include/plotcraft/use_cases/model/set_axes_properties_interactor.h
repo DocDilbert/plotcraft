@@ -31,7 +31,7 @@ class SetAxesPropertiesInteractor : public ISetAxesPropertiesInput {
                               ISetAxesPropertiesDataAccess& update_axes_viewport_repo_access)
       : output_(output), data_access_(update_axes_viewport_repo_access) {}
 
-  void Update(SetAxesPropertiesRequest request) override {
+  void SetProperties(SetAxesPropertiesRequest request) override {
     auto ldata = json::parse(request.command);
 
     for (auto& data : ldata) {

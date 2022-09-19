@@ -19,7 +19,6 @@
     - Separate Measure and Draw Primitives implementations in platforms dir.
     - Add logging to wxDrawContext
     - Add a null implementation to platforms
-    - Rename Update*Range in Set*Range
     - Rework logging in plotcraft.cpp
 - Bugfixes
     - When multiple plots are added the axis have not the required 5% passing. Fix this.

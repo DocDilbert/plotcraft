@@ -14,7 +14,7 @@ struct SetAxesPropertiesRequest {
 
 class ISetAxesPropertiesInput {
  public:
-  virtual void Update(SetAxesPropertiesRequest request) = 0;
+  virtual void SetProperties(SetAxesPropertiesRequest request) = 0;
 };
 
 }  // namespace use_cases

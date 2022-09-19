@@ -14,7 +14,7 @@ struct SetFigurePropertiesRequest {
 
 class ISetFigurePropertiesInput {
  public:
-  virtual void Update(SetFigurePropertiesRequest request) = 0;
+  virtual void SetProperties(SetFigurePropertiesRequest request) = 0;
 };
 
 }  // namespace use_cases

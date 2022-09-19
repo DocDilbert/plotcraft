@@ -25,7 +25,7 @@ class ICreatePlotDataAccess {
 
   virtual unsigned GetPlotCount(const std::string &axes_id) = 0;
   virtual ViewPortData GetViewPort(const std::string &axes_id) = 0;
-  virtual void UpdateViewPort(const std::string &axes_id, const ViewPortData &viewport) = 0;
+  virtual void SetViewPort(const std::string &axes_id, const ViewPortData &viewport) = 0;
   virtual void AddPlotToAxes(const std::string &axes_id, const PlotData &data,
                              const std::string &label) = 0;
 };
