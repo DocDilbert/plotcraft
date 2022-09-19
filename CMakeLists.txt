@@ -70,7 +70,7 @@ add_subdirectory(src)
 # ------------------------------------
 # Application: app_plotcraft 
 # ------------------------------------
-add_subdirectory(app_plotcraft)
+add_subdirectory(app_plotcraft/src app_plotcraft)
 
 # Testing only available if this is the main app
 if ((CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME) AND BUILD_TESTING)

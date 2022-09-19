@@ -6,6 +6,9 @@ set(APP_SOURCES
 
 add_executable(app_plotcraft ${APP_SOURCES})
 
+# Add the include directories and make them known to other targets (PUBLIC)
+target_include_directories(app_plotcraft PUBLIC ../include)
+
 # Link local libraries
 target_link_libraries(app_plotcraft PUBLIC plotcraft)
 

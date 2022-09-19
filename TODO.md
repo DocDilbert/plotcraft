@@ -21,7 +21,6 @@
     - Add a null implementation to platforms
     - Rename Update*Range in Set*Range
     - Rework logging in plotcraft.cpp
-    - Separate includes and source in app_plotcraft
 - Bugfixes
     - When multiple plots are added the axis have not the required 5% passing. Fix this.
         - Add relational expand inflate to rect. 

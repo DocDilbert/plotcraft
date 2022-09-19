@@ -11,5 +11,6 @@ def Settings( **kwargs ):
               '-I./extern/fmt/include', 
               '-I./extern/spdlog/include',
               '-I./include', 
+              '-I./app_plotcraft/include', 
             ],
   }
